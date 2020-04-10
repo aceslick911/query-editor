@@ -6,6 +6,7 @@ import "./styles.less";
 const QueryInstance = ({ liked }) => {
   let activeState = { liked };
 
+  let stateUpdater = null;
   let clickHandler = null;
 
   const QueryEditor = ({ liked }) => {
@@ -15,6 +16,8 @@ const QueryInstance = ({ liked }) => {
       activeState = newState;
       doSetState(newState);
     };
+
+    stateUpdater = setState;
 
     return (
       <div className="query-editor">
@@ -29,13 +32,17 @@ const QueryInstance = ({ liked }) => {
       </div>
     );
   };
-
   return {
     component: <QueryEditor liked={liked}></QueryEditor>,
     getState: () => activeState,
     on: (action, handler) => {
       if (action === "click") {
         clickHandler = handler;
+      }
+    },
+    updateState: (newState) => {
+      if (stateUpdater) {
+        stateUpdater(newState);
       }
     },
   };

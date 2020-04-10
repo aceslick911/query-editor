@@ -87,10 +87,10 @@ See demo/index.html for an example
         )
 
         // This is how you update the state externally
-          editor.updateState({
+        editor.updateState({
             dataSources,
             queryConfig,
-          })
+        })
 
     })
   </script>
