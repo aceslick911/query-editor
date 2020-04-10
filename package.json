@@ -7,9 +7,9 @@
     "lib": "lib"
   },
   "scripts": {
-    "bundle-js-dev": "webpack --config ./webpack.dev.config.js --mode development",
-    "bundle-js-prod": "webpack -p --config ./webpack.prod.config.js",
-    "bundle-js": "npm run test && npm run bundle-js-dev && npm run bundle-js-prod",
+    "dev": "webpack --config ./webpack.dev.config.js --mode development",
+    "prod": "webpack -p --config ./webpack.prod.config.js",
+    "bundle-js": "npm run test && npm run dev && npm run prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

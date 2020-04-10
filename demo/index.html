@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head> 
+  <head>
+    <!-- Load Query-Editor component. -->
+    <script src="../lib/query-editor.js"></script>
 
-    
-
-  <!-- Load Query-Editor component. -->
-  <script src="../lib/query-editor.js"></script>
-
-  <script lang="javascript">
-      document.addEventListener("DOMContentLoaded", function(event) {
-
-        queryEditor.create({
-            element:document.getElementById("query-editor"), 
-            liked:false
-        })
-
-    })
-  </script>
-  
-</body>
+    <script lang="javascript">
+        document.addEventListener("DOMContentLoaded", ()=> {
+          queryEditor.create({
+              element:document.getElementById("query-editor"),
+              liked:false
+          })
+      })
+    </script>
   </head>
-<h1>Hello</h1>
-
-<div id="query-editor" class="query-editor"></div>
-  
   <body>
+    <h1>Hello</h1>
 
+    <div id="query-editor"></div>
+  </body>
 </html>

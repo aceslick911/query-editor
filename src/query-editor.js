@@ -3,16 +3,18 @@ import ReactDOM from "react-dom";
 
 import "./styles.less";
 
-const LikeButton = ({ liked }) => {
+const QueryEditor = ({ liked }) => {
   const [state, setState] = useState({ liked });
 
   return (
-    <button onClick={() => setState({ liked: !state.liked })}>
-      {state.liked ? "You liked this" : "Like"}
-    </button>
+    <div class="query-editor">
+      <button onClick={() => setState({ liked: !state.liked })}>
+        {state.liked ? "You liked this" : "Like"}
+      </button>
+    </div>
   );
 };
 
 export const create = ({ element, liked }) => {
-  ReactDOM.render(<LikeButton liked={liked} />, element);
+  ReactDOM.render(<QueryEditor liked={liked} />, element);
 };
