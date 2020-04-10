@@ -41,7 +41,8 @@ See demo/index.html for an example
               }
           ];
 
-          const queryConfig = {
+        // This is an example of a query configuration
+        const queryConfig = {
             columns:[
             {
               type:"datasource",
