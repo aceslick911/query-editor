@@ -69,23 +69,31 @@
               state:{
                 dataSources,
                 queryConfig,
-              }
+              },
+              liked:true,
           })
 
-          // Trigger on specific events
-          editor.on("click",()=>{
-              console.log("Handled click event");
-              // Get back the active state
-              const outputState = editor.getState();
-              console.log(outputState);
-            }
-          )
+          // // Trigger on specific events
+          // editor.on("click",()=>{
+          //     console.log("Handled click event");
+          //     // Get back the active state
+          //     const outputState = editor.getState();
+          //     console.log(outputState);
+          //   }
+          // )
+
+          // // This is how you update the state externally
+          // editor.updateState({
+          //   dataSources,
+          //   queryConfig,
+          // })
 
           // This is how you update the state externally
-          editor.updateState({
-            dataSources,
-            queryConfig,
-          })
+          setTimeout(()=>{
+            editor.updateState({
+              liked:false,
+            })
+          },1000)
 
       })
     </script>
