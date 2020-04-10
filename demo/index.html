@@ -17,10 +17,6 @@
                   {id:"firstname", name:"First Name"},
                   {id:"lastname", name:"Last Name"},
                 ],
-                  data:[
-                    {firstname:"Rick", lastname:"James"},
-                    {firstname:"Eddie", lastname:"Murphy"},
-                  ]
               },
               {
                 id:"2",
@@ -29,26 +25,30 @@
                   {id:"firstname", name:"First Name"},
                   {id:"salary", name:"Salary"},
                 ],
-                  data:[
-                    {firstname:"Rick", salary:"210000"},
-                    {firstname:"Eddie", salary:"250000"},
-                  ]
               }
           ];
 
           // This is an example of a query configuration
           const queryConfig = {
             columns:[
-            {
-              type:"datasource",
-              dataSourceId:"1",
-              columnId:"firstname"
-            },
-            {
-              type:"datasource",
-              dataSourceId:"2",
-              columnId:"salary"
-            },
+              {
+                type:"datasource",
+                dataSourceId:"1",
+                columnId:"firstname",
+                data:[
+                  "Rick",
+                  "Eddie",
+                ]
+              },
+              {
+                type:"datasource",
+                dataSourceId:"2",
+                columnId:"salary",
+                data:[
+                  "200000",
+                  "250000",
+                ]
+              },
             ],
             join:{
               joinType:"fuzzy",
