@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head> 
           <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -13,13 +13,16 @@
     ></script>
 
   <!-- Load our React component. -->
-  <script src="../src/query-editor.js"></script>
+  <script src="../lib/query-editor.js"></script>
 
   <script lang="javascript">
+    //   console.log(LikeButton);
+    const LikeButton = queryEditor.default;
+      console.log("editor",LikeButton);
     document.addEventListener("DOMContentLoaded", function(event) {
 
         const domContainer = document.querySelector('#class-editor');
-        ReactDOM.render(e(LikeButton), domContainer);
+        ReactDOM.render(React.createElement(LikeButton), domContainer);
     })
   </script>
   
