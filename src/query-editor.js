@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 
 import "./styles.less";
 
+import { QueryWindow } from "./queryWindow";
+
 const QueryInstance = ({ liked }) => {
   let activeState = { liked };
 
@@ -29,6 +31,7 @@ const QueryInstance = ({ liked }) => {
         >
           {state.liked ? "You liked this" : "Like"}
         </button>
+        <QueryWindow></QueryWindow>
       </div>
     );
   };

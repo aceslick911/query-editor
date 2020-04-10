@@ -3,4 +3,34 @@
     background-color: yellow;
     width: 100px;
   }
+  height: 100%;
+  position: relative;
+  .window {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: 1px solid black;
+
+    overflow: auto;
+
+    .data-sources {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      bottom: 20px;
+      width: 400px;
+      border: 1px solid black;
+    }
+
+    .query-view {
+      position: absolute;
+      top: 20px;
+      left: 20px + 20px + 400px;
+      bottom: 20px;
+      width: 400px;
+      border: 1px solid black;
+    }
+  }
 }
