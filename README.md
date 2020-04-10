@@ -19,16 +19,16 @@ See demo/index.html for an example
                     id:"1",
                     name:"File 1",
                     columns:[
-                    {id:"firstname", name:"First Name"},
-                    {id:"lastname", name:"Last Name"},
+                        {id:"firstname", name:"First Name"},
+                        {id:"lastname", name:"Last Name"},
                     ],
                 },
                 {
                     id:"2",
                     name:"File 2",
                     columns:[
-                    {id:"firstname", name:"First Name"},
-                    {id:"salary", name:"Salary"},
+                        {id:"firstname", name:"First Name"},
+                        {id:"salary", name:"Salary"},
                     ],
                 }
             ];
