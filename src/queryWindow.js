@@ -67,7 +67,27 @@ export const QueryWindow = () => {
         </div>
 
         <div className="query-view">
-          <header>Query</header>
+          <div className="wrap">
+            <header>Query</header>
+            <div className="fields">
+              <div>File1.Firstname</div>
+              <div>File2.Salary</div>
+            </div>
+            <div className="table">
+              <div className="columns">
+                <div>Firstname</div>
+                <div>Salary</div>
+              </div>
+              <div className="row">
+                <div>Rick</div>
+                <div>200000</div>
+              </div>
+              <div className="row">
+                <div>Eddie</div>
+                <div>250000</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
