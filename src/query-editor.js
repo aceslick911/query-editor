@@ -23,14 +23,14 @@ const QueryInstance = ({ liked }) => {
 
     return (
       <div className="query-editor">
-        <button
+        {/* <button
           onClick={() => {
             setState({ liked: !state.liked });
             !clickHandler || clickHandler();
           }}
         >
           {state.liked ? "You liked this" : "Like"}
-        </button>
+        </button> */}
         <QueryWindow></QueryWindow>
       </div>
     );

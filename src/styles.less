@@ -13,24 +13,69 @@
     bottom: 0;
     border: 1px solid black;
 
-    overflow: auto;
+    overflow: hidden;
+
+    .window-wrap {
+      position: relative;
+      height: 100%;
+    }
 
     .data-sources {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      bottom: 20px;
+      left: 0;
+      top: 0;
+      bottom: 0;
       width: 400px;
       border: 1px solid black;
+      overflow: hidden;
+      margin: 20px;
+
+      header {
+        font-weight: bold;
+        padding: 10px;
+        border: 1px solid black;
+      }
+      footer {
+        position: absolute;
+        bottom: 0;
+        height: 20px;
+        left: 0;
+        right: 0;
+      }
+      .files {
+        overflow: auto;
+        margin-bottom: 20px;
+        position: absolute;
+        top: 40px;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        .datasource {
+          header {
+            margin: 0;
+          }
+          .column {
+            margin-left: 20px;
+          }
+        }
+      }
     }
 
     .query-view {
       position: absolute;
-      top: 20px;
-      left: 20px + 20px + 400px;
-      bottom: 20px;
+      top: 0;
+      left: 440px;
       width: 400px;
+      bottom: 0;
       border: 1px solid black;
+      margin: 20px;
+      overflow: hidden;
+
+      header {
+        font-weight: bold;
+        padding: 10px;
+        border: 1px solid black;
+      }
     }
   }
 }
