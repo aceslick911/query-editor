@@ -50,13 +50,14 @@
           })
 
           // Trigger on specific events
-          editor.on({
-            click:()=>{ console.log("Handled click event"); }
-          })
+          editor.on("click",()=>{
+              console.log("Handled click event");
+              // Get back the active state
+              const outputState = editor.getState();
+              console.log(outputState);
+            }
+          )
 
-          // Get back the active state
-          const outputState = editor.getState();
-          console.log(outputState);
       })
     </script>
   </head>

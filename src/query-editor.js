@@ -3,13 +3,27 @@ import ReactDOM from "react-dom";
 
 import "./styles.less";
 
-const QueryInstance = () => {
+const QueryInstance = ({ liked }) => {
+  let activeState = { liked };
+
+  let clickHandler = null;
+
   const QueryEditor = ({ liked }) => {
-    const [state, setState] = useState({ liked });
+    const [state, doSetState] = useState({ liked });
+
+    const setState = (newState) => {
+      activeState = newState;
+      doSetState(newState);
+    };
 
     return (
       <div className="query-editor">
-        <button onClick={() => setState({ liked: !state.liked })}>
+        <button
+          onClick={() => {
+            setState({ liked: !state.liked });
+            !clickHandler || clickHandler();
+          }}
+        >
           {state.liked ? "You liked this" : "Like"}
         </button>
       </div>
@@ -17,19 +31,20 @@ const QueryInstance = () => {
   };
 
   return {
-    component: QueryEditor,
+    component: <QueryEditor liked={liked}></QueryEditor>,
+    getState: () => activeState,
+    on: (action, handler) => {
+      if (action === "click") {
+        clickHandler = handler;
+      }
+    },
   };
 };
 export const create = ({ element, liked }) => {
-  const instance = QueryInstance();
+  const instance = QueryInstance({
+    liked,
+  });
   const QueryEditor = instance.component;
-  ReactDOM.render(<QueryEditor liked={liked}></QueryEditor>, element);
-  return {
-    on: ({ click }) => {
-      // Implement click handler
-    },
-    getState: () => {
-      // Implement return of state
-    },
-  };
+  ReactDOM.render(QueryEditor, element);
+  return instance;
 };
