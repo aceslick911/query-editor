@@ -1,24 +1,14 @@
-"use strict";
+import React, { useState } from "react";
 
-const e = React.createElement;
+const LikeButton = () => {
+  // const [state, setState] = useState({ liked: false });
 
-class LikeButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { liked: false };
-  }
-
-  render() {
-    if (this.state.liked) {
-      return "You liked this.";
-    }
-
-    return e(
-      "button",
-      { onClick: () => this.setState({ liked: true }) },
-      "Like"
-    );
-  }
-}
+  return (
+    // <button onClick={() => setState({ liked: true })}>
+    //   {state.liked ? "You liked this" : "Like"}
+    // </button>
+    <button>Hello</button>
+  );
+};
 
 export default LikeButton;
