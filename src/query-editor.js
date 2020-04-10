@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
+import "./styles.less";
+
 const LikeButton = ({ liked }) => {
   const [state, setState] = useState({ liked });
 
