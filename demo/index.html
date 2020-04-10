@@ -37,7 +37,29 @@
           ];
 
           const queryConfig = {
-            dataSources
+            columns:[
+            {
+              type:"datasource",
+              dataSourceId:"1",
+              columnId:"firstname"
+            },
+            {
+              type:"datasource",
+              dataSourceId:"2",
+              columnId:"salary"
+            },
+            ],
+            join:{
+              joinType:"fuzzy",
+              left:{
+                datasourceId:"1",
+                columnId:"1"
+              },
+              left:{
+                datasourceId:"2",
+                columnId:"1"
+              },
+            }
           }
 
           // Create the component
@@ -45,7 +67,7 @@
               element:document.getElementById("query-editor"),
               state:{
                 dataSources,
-                query:queryConfig
+                queryConfig,
               }
           })
 
