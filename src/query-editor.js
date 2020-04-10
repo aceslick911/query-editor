@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-const LikeButton = () => {
-  const [state, setState] = useState({ liked: false });
+const LikeButton = ({ liked }) => {
+  const [state, setState] = useState({ liked });
 
   return (
-    <button onClick={() => setState({ liked: true })}>
+    <button onClick={() => setState({ liked: !state.liked })}>
       {state.liked ? "You liked this" : "Like"}
     </button>
   );
 };
 
-document.addEventListener("DOMContentLoaded", function (event) {
-  const rootElement = document.getElementById("class-editor");
-  ReactDOM.render(<LikeButton />, rootElement);
-});
+export const create = ({ element, liked }) => {
+  ReactDOM.render(<LikeButton liked={liked} />, element);
+};

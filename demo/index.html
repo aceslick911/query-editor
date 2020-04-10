@@ -4,25 +4,25 @@
 
     
 
-  <!-- Load our React component. -->
+  <!-- Load Query-Editor component. -->
   <script src="../lib/query-editor.js"></script>
 
   <script lang="javascript">
-    //   console.log(LikeButton);
-    // const LikeButton = queryEditor.default;
-    //   console.log("editor",LikeButton);
-    // document.addEventListener("DOMContentLoaded", function(event) {
+      document.addEventListener("DOMContentLoaded", function(event) {
 
-    //     const domContainer = document.querySelector('#class-editor');
-    //     ReactDOM.render(React.createElement(LikeButton), domContainer);
-    // })
+        queryEditor.create({
+            element:document.getElementById("query-editor"), 
+            liked:false
+        })
+
+    })
   </script>
   
 </body>
   </head>
 <h1>Hello</h1>
 
-<div id="class-editor" class="query-editor"></div>
+<div id="query-editor" class="query-editor"></div>
   
   <body>
 
