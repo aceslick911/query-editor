@@ -69,8 +69,7 @@
               state:{
                 dataSources,
                 queryConfig,
-              },
-              liked:true,
+              }
           })
 
           // // Trigger on specific events
@@ -88,13 +87,6 @@
           //   queryConfig,
           // })
 
-          // This is how you update the state externally
-          setTimeout(()=>{
-            editor.updateState({
-              liked:false,
-            })
-          },1000)
-
       })
     </script>
 
@@ -107,7 +99,7 @@
     </style>
   </head>
   <body>
-    <h1>Hello</h1>
+    <h1>Query-View</h1>
 
     <div id="query-editor"></div>
   </body>

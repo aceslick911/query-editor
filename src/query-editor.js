@@ -5,14 +5,14 @@ import "./styles.less";
 
 import { QueryWindow } from "./queryWindow";
 
-const QueryInstance = ({ liked }) => {
-  let activeState = liked;
+const QueryInstance = ({ queryState }) => {
+  let activeState = queryState;
 
   let stateUpdater = null;
   let clickHandler = null;
 
-  const QueryEditor = ({ liked }) => {
-    const [state, doSetState] = useState({ liked });
+  const QueryEditor = ({ queryState }) => {
+    const [state, doSetState] = useState({ queryState });
 
     const setState = (newState) => {
       activeState = newState;
@@ -25,18 +25,18 @@ const QueryInstance = ({ liked }) => {
       <div className="query-editor">
         {/* <button
           onClick={() => {
-            setState({ liked: !state.liked });
+            setState({ queryState: !state.queryState });
             !clickHandler || clickHandler();
           }}
         >
-          {state.liked ? "You liked this" : "Like"}
+          {state.queryState ? "You queryState this" : "Like"}
         </button> */}
         <QueryWindow state={{ state: activeState }}></QueryWindow>
       </div>
     );
   };
   return {
-    component: <QueryEditor liked={liked}></QueryEditor>,
+    component: <QueryEditor queryState={queryState}></QueryEditor>,
     getState: () => activeState,
     on: (action, handler) => {
       if (action === "click") {
@@ -52,7 +52,7 @@ const QueryInstance = ({ liked }) => {
 };
 export const create = ({ element, state }) => {
   const instance = QueryInstance({
-    liked: state,
+    queryState: state,
   });
   const QueryEditor = instance.component;
   ReactDOM.render(QueryEditor, element);
