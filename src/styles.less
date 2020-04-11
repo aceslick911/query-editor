@@ -65,7 +65,7 @@
       position: absolute;
       top: 0;
       left: 440px;
-      width: 400px;
+      right: 20px;
       bottom: 0;
       border: 1px solid black;
       margin: 20px;
@@ -85,9 +85,24 @@
         left: 0;
         right: 0;
       }
+      .scroll-wrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        .hors-scroller {
+          position: relative;
+          overflow: auto;
+          height: 100%;
+          width: 100%;
+        }
+      }
+
       .fields {
         position: absolute;
         top: 40px;
+        white-space: nowrap;
 
         > div {
           display: inline-block;
@@ -108,12 +123,14 @@
           }
         }
         .columns {
+          white-space: nowrap;
           > div {
             display: inline-block;
             width: 150px;
           }
         }
         .row {
+          white-space: nowrap;
           > div {
             display: inline-block;
             width: 150px;

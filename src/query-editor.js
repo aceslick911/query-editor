@@ -23,14 +23,6 @@ const QueryInstance = ({ queryState }) => {
 
     return (
       <div className="query-editor">
-        {/* <button
-          onClick={() => {
-            setState({ queryState: !state.queryState });
-            !clickHandler || clickHandler();
-          }}
-        >
-          {state.queryState ? "You queryState this" : "Like"}
-        </button> */}
         <QueryWindow state={{ state: activeState }}></QueryWindow>
       </div>
     );
