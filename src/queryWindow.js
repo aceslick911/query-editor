@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
-export const QueryWindow = () => {
+export const QueryWindow = ({ state }) => {
+  const [activeState, setState] = useState(state);
+  const { dataSources, queryConfig } = activeState.state;
+  console.log(activeState, queryConfig);
   return (
     <div className="window">
       <div className="window-wrap">
@@ -70,6 +73,9 @@ export const QueryWindow = () => {
           <div className="wrap">
             <header>Query</header>
             <div className="fields">
+              {queryConfig.columns.map((column) => {
+                return <div>{column.columnId}</div>;
+              })}
               <div>File1.Firstname</div>
               <div>File2.Salary</div>
             </div>

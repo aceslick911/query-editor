@@ -6,7 +6,7 @@ import "./styles.less";
 import { QueryWindow } from "./queryWindow";
 
 const QueryInstance = ({ liked }) => {
-  let activeState = { liked };
+  let activeState = liked;
 
   let stateUpdater = null;
   let clickHandler = null;
@@ -31,7 +31,7 @@ const QueryInstance = ({ liked }) => {
         >
           {state.liked ? "You liked this" : "Like"}
         </button> */}
-        <QueryWindow></QueryWindow>
+        <QueryWindow state={{ state: activeState }}></QueryWindow>
       </div>
     );
   };
@@ -50,9 +50,9 @@ const QueryInstance = ({ liked }) => {
     },
   };
 };
-export const create = ({ element, liked }) => {
+export const create = ({ element, state }) => {
   const instance = QueryInstance({
-    liked,
+    liked: state,
   });
   const QueryEditor = instance.component;
   ReactDOM.render(QueryEditor, element);
