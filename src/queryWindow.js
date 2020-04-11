@@ -29,56 +29,18 @@ export const QueryWindow = ({ state }) => {
               <button>Remove</button>
             </footer>
             <div className="files">
-              <div className="datasource">
-                <header>File 1</header>
-                <div className="column">Firstname</div>
-                <div className="column">Lastname</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
-              <div className="datasource">
-                <header>File 2</header>
-                <div className="column">Firstname</div>
-                <div className="column">Salary</div>
-              </div>
+              {dataSources.map((source) => {
+                return (
+                  <div key={source.id} className="datasource">
+                    <header>{source.name}</header>
+                    {source.columns.map((col) => (
+                      <div className="column" key={col.id}>
+                        {col.name}
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -108,9 +70,9 @@ export const QueryWindow = ({ state }) => {
                 })}
               </div>
               {rowData.map((row) => (
-                <div className="row">
+                <div key={row} className="row">
                   {row.map((col) => (
-                    <div>{col}</div>
+                    <div key={col}>{col}</div>
                   ))}
                 </div>
               ))}
