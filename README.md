@@ -36,18 +36,18 @@ See demo/index.html for an example
         // This is an example of a query configuration
         const queryConfig = {
             columns: [
-            {
-                type: "datasource",
-                dataSourceId: "1",
-                columnId: "firstname",
-                data: ["Rick", "Eddie"],
-            },
-            {
-                type: "datasource",
-                dataSourceId: "2",
-                columnId: "salary",
-                data: ["200000", "250000"],
-            },
+                {
+                    type: "datasource",
+                    dataSourceId: "1",
+                    columnId: "firstname",
+                    data: ["Rick", "Eddie"],
+                },
+                {
+                    type: "datasource",
+                    dataSourceId: "2",
+                    columnId: "salary",
+                    data: ["200000", "250000"],
+                },
             ],
             join: {
             joinType: "fuzzy",
@@ -55,7 +55,7 @@ See demo/index.html for an example
                 datasourceId: "1",
                 columnId: "1",
             },
-            left: {
+            right: {
                 datasourceId: "2",
                 columnId: "1",
             },
