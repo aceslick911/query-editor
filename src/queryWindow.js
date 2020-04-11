@@ -3,7 +3,21 @@ import React, { useState } from "react";
 export const QueryWindow = ({ state }) => {
   const [activeState, setState] = useState(state);
   const { dataSources, queryConfig } = activeState.state;
-  console.log(activeState, queryConfig);
+  console.log(activeState, dataSources, queryConfig);
+
+  let rowData = [];
+  if (queryConfig.columns.length > 0) {
+    rowData = queryConfig.columns[0].data.map((data) => []);
+
+    for (let col of queryConfig.columns) {
+      for (let rowIndex = 0; rowIndex < col.data.length; rowIndex++) {
+        rowData[rowIndex].push(col.data[rowIndex]);
+      }
+    }
+  }
+
+  console.log(rowData);
+
   return (
     <div className="window">
       <div className="window-wrap">
@@ -74,24 +88,32 @@ export const QueryWindow = ({ state }) => {
             <header>Query</header>
             <div className="fields">
               {queryConfig.columns.map((column) => {
-                return <div>{column.columnId}</div>;
+                const colDataSource = dataSources.find(
+                  (datasource) => datasource.id == column.dataSourceId
+                );
+                const colDataSourceCol = colDataSource.columns.find(
+                  (col) => col.id == column.columnId
+                );
+                return (
+                  <div key={column.columnId}>
+                    {colDataSource.name + "." + colDataSourceCol.id}
+                  </div>
+                );
               })}
-              <div>File1.Firstname</div>
-              <div>File2.Salary</div>
             </div>
             <div className="table">
               <div className="columns">
-                <div>Firstname</div>
-                <div>Salary</div>
+                {queryConfig.columns.map((column) => {
+                  return <div key={column.columnId}>{column.columnId}</div>;
+                })}
               </div>
-              <div className="row">
-                <div>Rick</div>
-                <div>200000</div>
-              </div>
-              <div className="row">
-                <div>Eddie</div>
-                <div>250000</div>
-              </div>
+              {rowData.map((row) => (
+                <div className="row">
+                  {row.map((col) => (
+                    <div>{col}</div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
