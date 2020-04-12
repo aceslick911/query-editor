@@ -43,6 +43,12 @@ export const QueryView = ({ queryConfig, dataSources }) => {
     return rowData;
   };
 
+  const getColumn = (dataSourceId, columnId) => {
+    return dataSources
+      .find((item) => item.id === dataSourceId)
+      .columns.find((col) => col.id === columnId);
+  };
+
   return (
     <div className="query-view">
       <div className="wrap">
@@ -60,7 +66,7 @@ export const QueryView = ({ queryConfig, dataSources }) => {
                 return (
                   <div key={column.columnId}>
                     <label>
-                      {colDataSource.name + "." + colDataSourceCol.id}
+                      {colDataSource.name + "." + colDataSourceCol.name}
                     </label>
                   </div>
                 );
@@ -69,7 +75,11 @@ export const QueryView = ({ queryConfig, dataSources }) => {
             <div className="table">
               <div className="columns">
                 {queryConfig.columns.map((column) => {
-                  return <div key={column.columnId}>{column.columnId}</div>;
+                  return (
+                    <div key={column.columnId}>
+                      {getColumn(column.dataSourceId, column.columnId).name}
+                    </div>
+                  );
                 })}
               </div>
               {rowData().map((row) => (
