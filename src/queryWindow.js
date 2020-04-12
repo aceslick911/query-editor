@@ -1,6 +1,63 @@
 import React, { useState } from "react";
+
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+const DraggableDataSource = ({ provided, col }) => {
+  return (
+    <div
+      {...provided.dragHandleProps}
+      {...provided.draggableProps}
+      ref={provided.innerRef}
+      // style={getListStyle(snapshot.isDraggingOver)}
+      key={col.id}
+    >
+      <label key={col.id}>{col.name}</label>
+    </div>
+  );
+};
+
+const DroppableDataSources = ({ dataSources, provided }) => {
+  return (
+    <div className="files" ref={provided.innerRef}>
+      {dataSources.map((source) => (
+        <div key={source.id} className="datasource">
+          <header>{source.name}</header>
+          {source.columns.map((col, index) => (
+            <div className="column" key={col.id}>
+              <Draggable
+                key={source.id + ":" + col.id}
+                draggableId={col.id}
+                index={index}
+              >
+                {(provided, snapshot) => (
+                  <DraggableDataSource
+                    provided={provided}
+                    col={col}
+                  ></DraggableDataSource>
+                )}
+              </Draggable>
+            </div>
+          ))}
+          {provided.placeholder}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 // eslint-disable-next-line
 const DataView = ({ dataSources }) => {
+  const grid = 8;
+  const getListStyle = (isDraggingOver) => ({
+    background: isDraggingOver ? "lightblue" : "lightgrey",
+    padding: grid,
+  });
+
+  // const getListStyle = (isDraggingOver) => ({
+  //   background: isDraggingOver ? "lightblue" : "lightgrey",
+  //   padding: grid,
+  // });
+
   return (
     <div className="data-sources">
       <div className="data-wrap">
@@ -9,20 +66,15 @@ const DataView = ({ dataSources }) => {
           <button>Add</button>
           <button>Remove</button>
         </footer>
-        <div className="files">
-          {dataSources.map((source) => {
-            return (
-              <div key={source.id} className="datasource">
-                <header>{source.name}</header>
-                {source.columns.map((col) => (
-                  <div className="column" key={col.id}>
-                    <label>{col.name}</label>
-                  </div>
-                ))}
-              </div>
-            );
-          })}
-        </div>
+        <Droppable droppableId="datasources">
+          {(provided) => (
+            <DroppableDataSources
+              {...provided.droppableProps}
+              dataSources={dataSources}
+              provided={provided}
+            ></DroppableDataSources>
+          )}
+        </Droppable>
       </div>
     </div>
   );
@@ -56,7 +108,7 @@ export const QueryView = ({ queryConfig, dataSources }) => {
         <div className="scroll-wrap">
           <div className="hors-scroller">
             <div className="fields">
-              {queryConfig.columns.map((column) => {
+              {queryConfig.columns.map((column, index) => {
                 const colDataSource = dataSources.find(
                   (datasource) => datasource.id == column.dataSourceId
                 );
@@ -65,9 +117,19 @@ export const QueryView = ({ queryConfig, dataSources }) => {
                 );
                 return (
                   <div key={column.columnId}>
-                    <label>
-                      {colDataSource.name + "." + colDataSourceCol.name}
-                    </label>
+                    {
+                      // <Draggable
+                      //   key={column.columnId}
+                      //   draggableId={column.columnId}
+                      //   index={index}
+                      // >
+                      <div>
+                        <label>
+                          {colDataSource.name + "." + colDataSourceCol.name}
+                        </label>
+                      </div>
+                      // </Draggable>
+                    }
                   </div>
                 );
               })}
@@ -102,15 +164,36 @@ export const QueryWindow = ({ state }) => {
   const [activeState, setState] = useState(state);
   const { dataSources, queryConfig } = activeState.state;
 
+  const onDragEnd = (result) => {
+    console.log("Drag end", result);
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    // const items = reorder(
+    //   this.state.items,
+    //   result.source.index,
+    //   result.destination.index
+    // );
+
+    // this.setState({
+    //   items,
+    // });
+  };
+  const grid = 8;
   return (
     <div className="window">
-      <div className="window-wrap">
-        <DataView dataSources={dataSources}></DataView>
-        <QueryView
-          queryConfig={queryConfig}
-          dataSources={dataSources}
-        ></QueryView>
-      </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="window-wrap">
+          <DataView dataSources={dataSources}></DataView>
+          <QueryView
+            queryConfig={queryConfig}
+            dataSources={dataSources}
+          ></QueryView>
+        </div>
+        )}
+      </DragDropContext>
     </div>
   );
 };
