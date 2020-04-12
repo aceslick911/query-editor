@@ -50,12 +50,23 @@
         bottom: 10px;
         left: 0;
         right: 0;
+
         .datasource {
           header {
             margin: 0;
           }
           .column {
             margin-left: 20px;
+            margin: 10px;
+            label {
+              cursor: pointer;
+              border-radius: 5px;
+              border: 1px solid black;
+              padding: 2px;
+              &:hover {
+                background-color: yellow;
+              }
+            }
           }
         }
       }
@@ -106,14 +117,22 @@
 
         > div {
           display: inline-block;
-          border-radius: 5px;
           width: 150px;
-          border: 1px solid black;
+          margin: 10px 0 10px 0;
+          label {
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid black;
+            padding: 2px;
+            &:hover {
+              background-color: yellow;
+            }
+          }
         }
       }
       .table {
         position: absolute;
-        top: 60px;
+        top: 75px;
         left: 0;
         bottom: 0;
         right: 0;

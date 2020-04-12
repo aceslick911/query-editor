@@ -16,7 +16,7 @@ const DataView = ({ dataSources }) => {
                 <header>{source.name}</header>
                 {source.columns.map((col) => (
                   <div className="column" key={col.id}>
-                    {col.name}
+                    <label>{col.name}</label>
                   </div>
                 ))}
               </div>
@@ -59,7 +59,9 @@ export const QueryView = ({ queryConfig, dataSources }) => {
                 );
                 return (
                   <div key={column.columnId}>
-                    {colDataSource.name + "." + colDataSourceCol.id}
+                    <label>
+                      {colDataSource.name + "." + colDataSourceCol.id}
+                    </label>
                   </div>
                 );
               })}
