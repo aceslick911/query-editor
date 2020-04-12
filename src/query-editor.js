@@ -9,10 +9,11 @@ const QueryInstance = ({ queryState }) => {
   let activeState = queryState;
 
   let stateUpdater = null;
-  let clickHandler = null;
+  let clickHandler = null; // eslint-disable-line no-unused-vars
 
+  // eslint-disable-next-line react/prop-types
   const QueryEditor = ({ queryState }) => {
-    const [state, doSetState] = useState({ queryState });
+    const [state, doSetState] = useState({ queryState }); // eslint-disable-line no-unused-vars
 
     const setState = (newState) => {
       activeState = newState;

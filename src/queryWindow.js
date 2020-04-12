@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+// eslint-disable-next-line
 const DataView = ({ dataSources }) => {
   return (
     <div className="data-sources">
@@ -32,7 +32,7 @@ export const QueryView = ({ queryConfig, dataSources }) => {
   const rowData = () => {
     let rowData = [];
     if (queryConfig.columns.length > 0) {
-      rowData = queryConfig.columns[0].data.map((data) => []);
+      rowData = queryConfig.columns[0].data.map(() => []);
 
       for (let col of queryConfig.columns) {
         for (let rowIndex = 0; rowIndex < col.data.length; rowIndex++) {
@@ -98,6 +98,7 @@ export const QueryView = ({ queryConfig, dataSources }) => {
 };
 
 export const QueryWindow = ({ state }) => {
+  // eslint-disable-next-line no-unused-vars
   const [activeState, setState] = useState(state);
   const { dataSources, queryConfig } = activeState.state;
 
