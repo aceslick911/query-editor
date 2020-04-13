@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const DraggableDataSource = ({ source, col, index }) => {
+  const getListStyle = (isDraggingOver) => ({
+    background: isDraggingOver ? "lightblue" : "lightgrey",
+  });
   return (
     <Draggable
       key={source.id + ":" + col.id}
@@ -26,10 +29,6 @@ const DraggableDataSource = ({ source, col, index }) => {
 };
 
 const DroppableDataSources = ({ source }) => {
-  // const getListStyle = (isDraggingOver) => ({
-  //   background: isDraggingOver ? "lightblue" : "lightgrey",
-  //   padding: grid,
-  // });
   return (
     <Droppable
       droppableId={"datasources-" + source.id}
@@ -57,17 +56,6 @@ const DroppableDataSources = ({ source }) => {
 
 // eslint-disable-next-line
 const DataView = ({ dataSources }) => {
-  const grid = 8;
-  const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
-    padding: grid,
-  });
-
-  // const getListStyle = (isDraggingOver) => ({
-  //   background: isDraggingOver ? "lightblue" : "lightgrey",
-  //   padding: grid,
-  // });
-
   return (
     <div className="data-sources">
       <div className="data-wrap">
@@ -93,6 +81,9 @@ const DataView = ({ dataSources }) => {
 };
 
 const DraggableQueryItem = ({ colDataSource, colDataSourceCol, index }) => {
+  const getListStyle = (isDraggingOver) => ({
+    background: isDraggingOver ? "lightblue" : "lightgrey",
+  });
   return (
     <div>
       {
@@ -145,6 +136,7 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
       droppableId={"query"}
       // type={"datasources-" + source.id}
       key={"query"}
+      direction="horizontal"
     >
       {(provided) => (
         <div className="hors-scroller" ref={provided.innerRef}>
@@ -240,7 +232,6 @@ export const QueryWindow = ({ state }) => {
             dataSources={dataSources}
           ></QueryView>
         </div>
-        )}
       </DragDropContext>
     </div>
   );
