@@ -3,9 +3,13 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const DraggableDataSource = ({ source, col, index }) => {
-  // const getListStyle = (isDraggingOver) => ({
-  //   background: isDraggingOver ? "lightblue" : "lightgrey",
-  // });
+  const getListStyle = (snapshot) => {
+    const style = {
+      background: snapshot.isDraggingOver ? "lightblue" : "lightgrey",
+    };
+
+    return style;
+  };
   return (
     <Draggable
       key={source.id + ":" + col.id}
@@ -16,7 +20,7 @@ const DraggableDataSource = ({ source, col, index }) => {
       {(provided, snapshot) => (
         <div
           {...provided.draggableProps}
-          // style={getListStyle(snapshot.isDraggingOver)}
+          // style={getListStyle(snapshot)}
           key={col.id}
           ref={provided.innerRef}
         >
@@ -133,6 +137,8 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
     return rowData;
   };
 
+  console.log("DroppableQueryView rendered", queryConfig);
+
   return (
     <Droppable
       droppableId={"query"}
@@ -202,16 +208,23 @@ export const QueryView = ({ queryConfig, dataSources }) => {
   );
 };
 
-export const QueryWindow = ({ state }) => {
+export const QueryWindow = ({ state, reorderQuery }) => {
+  console.log("Query using state", state);
   // eslint-disable-next-line no-unused-vars
-  const [activeState, setState] = useState(state);
-  const { dataSources, queryConfig } = activeState.state;
+  const { dataSources, queryConfig } = state;
 
   const onDragEnd = (result) => {
     console.log("Drag end", result);
     // dropped outside the list
     if (!result.destination) {
       return;
+    }
+
+    if (result.destination.droppableId == "query") {
+      reorderQuery({
+        startIndex: result.source.index,
+        newIndex: result.destination.index,
+      });
     }
 
     // const items = reorder(
