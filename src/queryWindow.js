@@ -92,6 +92,33 @@ const DataView = ({ dataSources }) => {
   );
 };
 
+const DraggableQueryItem = ({ colDataSource, colDataSourceCol, index }) => {
+  return (
+    <div>
+      {
+        <Draggable
+          key={colDataSource.name + "." + colDataSourceCol.name}
+          draggableId={colDataSource.name + "." + colDataSourceCol.name}
+          index={index}
+          // type={"datasources-" + source.id}
+        >
+          {(provided, snapshot) => (
+            <div
+              {...provided.dragHandleProps}
+              {...provided.draggableProps}
+              ref={provided.innerRef}
+              // style={getListStyle(snapshot.isDraggingOver)}
+              key={colDataSourceCol.name}
+            >
+              <label>{colDataSource.name + "." + colDataSourceCol.name}</label>
+            </div>
+          )}
+        </Draggable>
+      }
+    </div>
+  );
+};
+
 const DroppableQueryView = ({ queryConfig, dataSources }) => {
   const getColumn = (dataSourceId, columnId) => {
     return dataSources
@@ -130,21 +157,12 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
                 (col) => col.id == column.columnId
               );
               return (
-                <div key={column.columnId}>
-                  {
-                    // <Draggable
-                    //   key={column.columnId}
-                    //   draggableId={column.columnId}
-                    //   index={index}
-                    // >
-                    <div>
-                      <label>
-                        {colDataSource.name + "." + colDataSourceCol.name}
-                      </label>
-                    </div>
-                    // </Draggable>
-                  }
-                </div>
+                <DraggableQueryItem
+                  key={column.columnId}
+                  colDataSource={colDataSource}
+                  colDataSourceCol={colDataSourceCol}
+                  index={index}
+                ></DraggableQueryItem>
               );
             })}
 
