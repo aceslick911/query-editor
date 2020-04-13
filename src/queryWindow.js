@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const DraggableDataSource = ({ source, col, index }) => {
-  const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
-  });
+  // const getListStyle = (isDraggingOver) => ({
+  //   background: isDraggingOver ? "lightblue" : "lightgrey",
+  // });
   return (
     <Draggable
       key={source.id + ":" + col.id}
@@ -17,11 +17,12 @@ const DraggableDataSource = ({ source, col, index }) => {
         <div
           {...provided.dragHandleProps}
           {...provided.draggableProps}
-          ref={provided.innerRef}
           // style={getListStyle(snapshot.isDraggingOver)}
           key={col.id}
         >
-          <label key={col.id}>{col.name}</label>
+          <label key={col.id} ref={provided.innerRef}>
+            {col.name}
+          </label>
         </div>
       )}
     </Draggable>
