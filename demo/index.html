@@ -77,6 +77,12 @@
         },
       });
 
+      // State updated
+       editor.on("update",(newState)=>{
+          console.log("Handled UPDATE event", newState);
+        }
+      )
+
 
           // // Trigger on specific events
           // editor.on("click",()=>{

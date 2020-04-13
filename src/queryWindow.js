@@ -137,8 +137,6 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
     return rowData;
   };
 
-  console.log("DroppableQueryView rendered", queryConfig);
-
   return (
     <Droppable
       droppableId={"query"}
@@ -209,12 +207,10 @@ export const QueryView = ({ queryConfig, dataSources }) => {
 };
 
 export const QueryWindow = ({ state, reorderQuery }) => {
-  console.log("Query using state", state);
   // eslint-disable-next-line no-unused-vars
   const { dataSources, queryConfig } = state;
 
   const onDragEnd = (result) => {
-    console.log("Drag end", result);
     // dropped outside the list
     if (!result.destination) {
       return;

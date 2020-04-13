@@ -26,7 +26,6 @@ const QueryInstance = ({ queryState }) => {
     const [state, doSetState] = useState({ ...queryState }); // eslint-disable-line no-unused-vars
 
     const setState = (newState) => {
-      console.log("State changed", newState);
       activeState = newState;
       doSetState(newState);
       if (updateHandler) {
@@ -37,7 +36,6 @@ const QueryInstance = ({ queryState }) => {
     stateUpdater = setState;
 
     const reorderQuery = ({ startIndex, newIndex }) => {
-      console.log("Reorder query", startIndex, newIndex);
       setState({
         ...activeState,
         queryConfig: {
@@ -50,7 +48,6 @@ const QueryInstance = ({ queryState }) => {
         },
       });
     };
-    console.log("Using state", state);
     return (
       <div className="query-editor">
         <QueryWindow state={state} reorderQuery={reorderQuery}></QueryWindow>
