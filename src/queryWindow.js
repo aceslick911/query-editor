@@ -16,31 +16,32 @@ const DraggableDataSource = ({ provided, col }) => {
   );
 };
 
-const DroppableDataSources = ({ dataSources, provided }) => {
+const DroppableDataSources = ({ source, provided }) => {
+  // const getListStyle = (isDraggingOver) => ({
+  //   background: isDraggingOver ? "lightblue" : "lightgrey",
+  //   padding: grid,
+  // });
   return (
-    <div className="files" ref={provided.innerRef}>
-      {dataSources.map((source) => (
-        <div key={source.id} className="datasource">
-          <header>{source.name}</header>
-          {source.columns.map((col, index) => (
-            <div className="column" key={col.id}>
-              <Draggable
-                key={source.id + ":" + col.id}
-                draggableId={col.id}
-                index={index}
-              >
-                {(provided, snapshot) => (
-                  <DraggableDataSource
-                    provided={provided}
-                    col={col}
-                  ></DraggableDataSource>
-                )}
-              </Draggable>
-            </div>
-          ))}
-          {provided.placeholder}
+    <div key={source.id} className="datasource">
+      <header>{source.name}</header>
+      {source.columns.map((col, index) => (
+        <div className="column" key={col.id} ref={provided.innerRef}>
+          <Draggable
+            key={source.id + ":" + col.id}
+            draggableId={source.id + ":" + col.id}
+            index={index}
+            // type={"datasources-" + source.id}
+          >
+            {(provided, snapshot) => (
+              <DraggableDataSource
+                provided={provided}
+                col={col}
+              ></DraggableDataSource>
+            )}
+          </Draggable>
         </div>
       ))}
+      {provided.placeholder}
     </div>
   );
 };
@@ -66,15 +67,23 @@ const DataView = ({ dataSources }) => {
           <button>Add</button>
           <button>Remove</button>
         </footer>
-        <Droppable droppableId="datasources">
-          {(provided) => (
-            <DroppableDataSources
-              {...provided.droppableProps}
-              dataSources={dataSources}
-              provided={provided}
-            ></DroppableDataSources>
-          )}
-        </Droppable>
+        <div className="files">
+          {dataSources.map((source) => (
+            <Droppable
+              droppableId={"datasources-" + source.id}
+              // type={"datasources-" + source.id}
+              key={source.id}
+            >
+              {(provided) => (
+                <DroppableDataSources
+                  {...provided.droppableProps}
+                  source={source}
+                  provided={provided}
+                ></DroppableDataSources>
+              )}
+            </Droppable>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -181,7 +190,6 @@ export const QueryWindow = ({ state }) => {
     //   items,
     // });
   };
-  const grid = 8;
   return (
     <div className="window">
       <DragDropContext onDragEnd={onDragEnd}>
