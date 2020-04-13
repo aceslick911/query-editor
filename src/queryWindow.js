@@ -16,25 +16,47 @@ const DraggableDataSource = ({ provided, col }) => {
   );
 };
 
-const DroppableDataSources = ({ source, col, index }) => {
+const DroppableDataSources = ({ source }) => {
   // const getListStyle = (isDraggingOver) => ({
   //   background: isDraggingOver ? "lightblue" : "lightgrey",
   //   padding: grid,
   // });
   return (
-    <Draggable
-      key={source.id + ":" + col.id}
-      draggableId={source.id + ":" + col.id}
-      index={index}
+    <Droppable
+      droppableId={"datasources-" + source.id}
       // type={"datasources-" + source.id}
+      key={source.id}
     >
-      {(provided, snapshot) => (
-        <DraggableDataSource
-          provided={provided}
-          col={col}
-        ></DraggableDataSource>
+      {(provided) => (
+        <div key={source.id} className="datasource">
+          <header>{source.name}</header>
+          {source.columns.map((col, index) => (
+            <div className="column" key={col.id} ref={provided.innerRef}>
+              <Draggable
+                key={source.id + ":" + col.id}
+                draggableId={source.id + ":" + col.id}
+                index={index}
+                // type={"datasources-" + source.id}
+              >
+                {(provided, snapshot) => (
+                  <DraggableDataSource
+                    provided={provided}
+                    col={col}
+                  ></DraggableDataSource>
+                )}
+              </Draggable>
+              {provided.placeholder}
+              {/* <DroppableDataSources
+              {...provided.droppableProps}
+              source={source}
+              col={col}
+              index={index}
+            ></DroppableDataSources> */}
+            </div>
+          ))}
+        </div>
       )}
-    </Draggable>
+    </Droppable>
   );
 };
 
@@ -61,32 +83,13 @@ const DataView = ({ dataSources }) => {
         </footer>
         <div className="files">
           {dataSources.map((source) => (
-            <Droppable
-              droppableId={"datasources-" + source.id}
-              // type={"datasources-" + source.id}
+            <DroppableDataSources
+              // {...provided.droppableProps}
+              source={source}
               key={source.id}
-            >
-              {(provided) => (
-                <div key={source.id} className="datasource">
-                  <header>{source.name}</header>
-                  {source.columns.map((col, index) => (
-                    <div
-                      className="column"
-                      key={col.id}
-                      ref={provided.innerRef}
-                    >
-                      <DroppableDataSources
-                        {...provided.droppableProps}
-                        source={source}
-                        col={col}
-                        index={index}
-                      ></DroppableDataSources>
-                    </div>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+              // col={col}
+              // index={index}
+            ></DroppableDataSources>
           ))}
         </div>
       </div>
@@ -120,53 +123,63 @@ export const QueryView = ({ queryConfig, dataSources }) => {
       <div className="wrap">
         <header>Query</header>
         <div className="scroll-wrap">
-          <div className="hors-scroller">
-            <div className="fields">
-              {queryConfig.columns.map((column, index) => {
-                const colDataSource = dataSources.find(
-                  (datasource) => datasource.id == column.dataSourceId
-                );
-                const colDataSourceCol = colDataSource.columns.find(
-                  (col) => col.id == column.columnId
-                );
-                return (
-                  <div key={column.columnId}>
-                    {
-                      // <Draggable
-                      //   key={column.columnId}
-                      //   draggableId={column.columnId}
-                      //   index={index}
-                      // >
-                      <div>
-                        <label>
-                          {colDataSource.name + "." + colDataSourceCol.name}
-                        </label>
+          <Droppable
+            droppableId={"query"}
+            // type={"datasources-" + source.id}
+            key={"query"}
+          >
+            {(provided) => (
+              <div className="hors-scroller" ref={provided.innerRef}>
+                <div className="fields">
+                  {queryConfig.columns.map((column, index) => {
+                    const colDataSource = dataSources.find(
+                      (datasource) => datasource.id == column.dataSourceId
+                    );
+                    const colDataSourceCol = colDataSource.columns.find(
+                      (col) => col.id == column.columnId
+                    );
+                    return (
+                      <div key={column.columnId}>
+                        {
+                          // <Draggable
+                          //   key={column.columnId}
+                          //   draggableId={column.columnId}
+                          //   index={index}
+                          // >
+                          <div>
+                            <label>
+                              {colDataSource.name + "." + colDataSourceCol.name}
+                            </label>
+                          </div>
+                          // </Draggable>
+                        }
                       </div>
-                      // </Draggable>
-                    }
+                    );
+                  })}
+
+                  {provided.placeholder}
+                </div>
+                <div className="table">
+                  <div className="columns">
+                    {queryConfig.columns.map((column) => {
+                      return (
+                        <div key={column.columnId}>
+                          {getColumn(column.dataSourceId, column.columnId).name}
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
-            <div className="table">
-              <div className="columns">
-                {queryConfig.columns.map((column) => {
-                  return (
-                    <div key={column.columnId}>
-                      {getColumn(column.dataSourceId, column.columnId).name}
+                  {rowData().map((row) => (
+                    <div key={row} className="row">
+                      {row.map((col) => (
+                        <div key={col}>{col}</div>
+                      ))}
                     </div>
-                  );
-                })}
-              </div>
-              {rowData().map((row) => (
-                <div key={row} className="row">
-                  {row.map((col) => (
-                    <div key={col}>{col}</div>
                   ))}
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
+            )}
+          </Droppable>
         </div>
       </div>
     </div>
