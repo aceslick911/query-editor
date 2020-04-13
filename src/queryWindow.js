@@ -15,12 +15,12 @@ const DraggableDataSource = ({ source, col, index }) => {
     >
       {(provided, snapshot) => (
         <div
-          {...provided.dragHandleProps}
           {...provided.draggableProps}
           // style={getListStyle(snapshot.isDraggingOver)}
           key={col.id}
+          ref={provided.innerRef}
         >
-          <label key={col.id} ref={provided.innerRef}>
+          <label key={col.id} {...provided.dragHandleProps}>
             {col.name}
           </label>
         </div>
@@ -37,10 +37,9 @@ const DroppableDataSources = ({ source }) => {
       key={source.id}
     >
       {(provided) => (
-        <div key={source.id} className="datasource">
-          <header>{source.name}</header>
+        <div className="drop-area" ref={provided.innerRef}>
           {source.columns.map((col, index) => (
-            <div className="column" key={col.id} ref={provided.innerRef}>
+            <div className="column" key={col.id}>
               <DraggableDataSource
                 col={col}
                 source={source}
@@ -67,13 +66,15 @@ const DataView = ({ dataSources }) => {
         </footer>
         <div className="files">
           {dataSources.map((source) => (
-            <DroppableDataSources
-              // {...provided.droppableProps}
-              source={source}
-              key={source.id}
-              // col={col}
-              // index={index}
-            ></DroppableDataSources>
+            <div key={source.id} className="datasource">
+              <header>{source.name}</header>
+              <DroppableDataSources
+                // {...provided.droppableProps}
+                source={source}
+                // col={col}
+                // index={index}
+              ></DroppableDataSources>
+            </div>
           ))}
         </div>
       </div>
