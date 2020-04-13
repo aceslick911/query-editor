@@ -85,6 +85,12 @@ See demo/index.html for an example
             queryConfig,
         })
 
+        // State updated
+        editor.on("update",(newState)=>{
+            console.log("Handled UPDATE event", newState);
+            }
+        )
+
     })
   </script>
 </head>
