@@ -16,33 +16,25 @@ const DraggableDataSource = ({ provided, col }) => {
   );
 };
 
-const DroppableDataSources = ({ source, provided }) => {
+const DroppableDataSources = ({ source, col, index }) => {
   // const getListStyle = (isDraggingOver) => ({
   //   background: isDraggingOver ? "lightblue" : "lightgrey",
   //   padding: grid,
   // });
   return (
-    <div key={source.id} className="datasource">
-      <header>{source.name}</header>
-      {source.columns.map((col, index) => (
-        <div className="column" key={col.id} ref={provided.innerRef}>
-          <Draggable
-            key={source.id + ":" + col.id}
-            draggableId={source.id + ":" + col.id}
-            index={index}
-            // type={"datasources-" + source.id}
-          >
-            {(provided, snapshot) => (
-              <DraggableDataSource
-                provided={provided}
-                col={col}
-              ></DraggableDataSource>
-            )}
-          </Draggable>
-        </div>
-      ))}
-      {provided.placeholder}
-    </div>
+    <Draggable
+      key={source.id + ":" + col.id}
+      draggableId={source.id + ":" + col.id}
+      index={index}
+      // type={"datasources-" + source.id}
+    >
+      {(provided, snapshot) => (
+        <DraggableDataSource
+          provided={provided}
+          col={col}
+        ></DraggableDataSource>
+      )}
+    </Draggable>
   );
 };
 
@@ -75,11 +67,24 @@ const DataView = ({ dataSources }) => {
               key={source.id}
             >
               {(provided) => (
-                <DroppableDataSources
-                  {...provided.droppableProps}
-                  source={source}
-                  provided={provided}
-                ></DroppableDataSources>
+                <div key={source.id} className="datasource">
+                  <header>{source.name}</header>
+                  {source.columns.map((col, index) => (
+                    <div
+                      className="column"
+                      key={col.id}
+                      ref={provided.innerRef}
+                    >
+                      <DroppableDataSources
+                        {...provided.droppableProps}
+                        source={source}
+                        col={col}
+                        index={index}
+                      ></DroppableDataSources>
+                    </div>
+                  ))}
+                  {provided.placeholder}
+                </div>
               )}
             </Droppable>
           ))}
