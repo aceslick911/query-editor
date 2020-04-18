@@ -3,13 +3,13 @@ import React, { useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const DraggableDataSource = ({ source, col, index }) => {
-  const getListStyle = (snapshot) => {
-    const style = {
-      background: snapshot.isDraggingOver ? "lightblue" : "lightgrey",
-    };
+  // const getListStyle = (snapshot) => {
+  //   const style = {
+  //     background: snapshot.isDraggingOver ? "lightblue" : "lightgrey",
+  //   };
 
-    return style;
-  };
+  //   return style;
+  // };
   return (
     <Draggable
       key={source.id + ":" + col.id}
@@ -17,7 +17,7 @@ const DraggableDataSource = ({ source, col, index }) => {
       index={index}
       // type={"datasources-" + source.id}
     >
-      {(provided, snapshot) => (
+      {(provided/*, snapshot*/) => (
         <div
           {...provided.draggableProps}
           // style={getListStyle(snapshot)}
@@ -87,9 +87,9 @@ const DataView = ({ dataSources }) => {
 };
 
 const DraggableQueryItem = ({ colDataSource, colDataSourceCol, index }) => {
-  const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
-  });
+  // const getListStyle = (isDraggingOver) => ({
+  //   background: isDraggingOver ? "lightblue" : "lightgrey",
+  // });
   return (
     <div>
       {
@@ -99,7 +99,7 @@ const DraggableQueryItem = ({ colDataSource, colDataSourceCol, index }) => {
           index={index}
           // type={"datasources-" + source.id}
         >
-          {(provided, snapshot) => (
+          {(provided/*, snapshot*/) => (
             <div
               {...provided.dragHandleProps}
               {...provided.draggableProps}
@@ -234,7 +234,7 @@ export const QueryView = ({ queryConfig, dataSources }) => {
   );
 };
 
-export const QueryWindow = ({ state, reorderQuery, addToQuery }) => {
+export const QueryWindow = ({ state, reorderQuery, addToQuery, removeFromQuery }) => {
   // eslint-disable-next-line no-unused-vars
   const { dataSources, queryConfig } = state;
 
@@ -260,6 +260,10 @@ export const QueryWindow = ({ state, reorderQuery, addToQuery }) => {
         startIndex: result.source.index,
         newIndex: result.destination.index,
       });
+    } else
+    if(result.source.droppableId==="query"){
+      //Remove from query
+      removeFromQuery({removeIndex:result.source.index})
     }
 
     // const items = reorder(

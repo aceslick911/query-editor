@@ -73,9 +73,20 @@ const QueryInstance = ({ queryState }) => {
       })
     }
 
+    const removeFromQuery = ({removeIndex})=>{
+      activeState.queryConfig.columns.splice(removeIndex,1);
+      setState({
+        ...activeState,
+        queryConfig:{
+          ...activeState.queryConfig,
+          columns:[...activeState.queryConfig.columns]
+        }
+      })
+    }
+
     return (
       <div className="query-editor">
-        <QueryWindow state={state} reorderQuery={reorderQuery} addToQuery={addToQuery}></QueryWindow>
+        <QueryWindow state={state} reorderQuery={reorderQuery} addToQuery={addToQuery} removeFromQuery={removeFromQuery}></QueryWindow>
       </div>
     );
   };
