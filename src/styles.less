@@ -101,7 +101,7 @@
       }
       .scroll-wrap {
         position: absolute;
-        top: 70px;
+        top: 80px;
         left: 0;
         right: 0;
         bottom: 0;
@@ -117,12 +117,22 @@
         position: absolute;
         top: 40px;
         white-space: nowrap;
-        min-width: 100%;
+        min-width: 100%;    
+        overflow: hidden;
+        left: 0;
+        right: 0;
+        height: 54px;
+        
 
         > div {
           display: inline-block;
           width: 150px;
           margin: 10px 0 10px 0;
+
+          // Add some scroll buffer
+          padding-right: 100px;
+          margin-right: -100px;
+
           label {
             cursor: pointer;
             border-radius: 5px;

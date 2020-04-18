@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -117,6 +117,9 @@ const DraggableQueryItem = ({ colDataSource, colDataSourceCol, index }) => {
 };
 
 const DroppableQueryView = ({ queryConfig, dataSources }) => {
+
+  const fieldsRef = useRef()
+
   const getColumn = (dataSourceId, columnId) => {
     const result =  dataSources
       .find((item) => item.id === dataSourceId)
@@ -148,6 +151,12 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
     return rowData;
   };
 
+  const onTableScroll = (scroll)=>{
+    if(fieldsRef.current!=null){
+      fieldsRef.current.scrollLeft = scroll.target.scrollLeft
+    }
+  }
+
   return (
     <Droppable
       droppableId={"query"}
@@ -158,7 +167,11 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
       {(provided) => (
         <>
         <header>Query</header>
-            <div className="fields"  ref={provided.innerRef}>
+            <div className="fields"  ref={(ref)=>{
+              provided.innerRef(ref);
+              fieldsRef.current=ref;
+            }
+          }>
               {queryConfig.columns.map((column, index) => {
                 const colDataSource = dataSources.find(
                   (datasource) => datasource.id == column.dataSourceId
@@ -180,7 +193,7 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
             </div>
 
         <div className="scroll-wrap">
-          <div className="hors-scroller">         
+          <div className="hors-scroller" onScroll={onTableScroll}>         
             <div className="table">
               <div className="columns">
                 {queryConfig.columns.map((column) => {
