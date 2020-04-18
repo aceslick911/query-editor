@@ -12,6 +12,7 @@ const DraggableDataSource = ({ source, col, index }) => {
   // };
   return (
     <Draggable
+      isDragDisabled={col.inQuery===true}
       key={source.id + ":" + col.id}
       draggableId={source.id + ":" + col.id}
       index={index}
@@ -23,6 +24,7 @@ const DraggableDataSource = ({ source, col, index }) => {
           // style={getListStyle(snapshot)}
           key={col.id}
           ref={provided.innerRef}
+          className={col.inQuery?"inQuery":""}
         >
           <label key={col.id} {...provided.dragHandleProps}>
             {col.name}

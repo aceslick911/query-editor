@@ -61,9 +61,21 @@ const QueryInstance = ({ queryState }) => {
         data:new Array(20).fill("?")
       });
 
+      // set the inQuery property
+      const existingDataSourceIndex = activeState.dataSources.indexOf(
+        activeState.dataSources.find(source=>dataSource.id==source.id)
+        ); 
+      
+      activeState.dataSources[existingDataSourceIndex].columns[startIndex]={
+        ...activeState.dataSources[existingDataSourceIndex].columns[startIndex],
+        inQuery:true,
+      }
+
       setState({
         ...activeState,
-        dataSources:[...activeState.dataSources],
+        dataSources:[
+          ...activeState.dataSources
+        ],
         queryConfig:{
           ...activeState.queryConfig,
           columns:[
@@ -74,6 +86,20 @@ const QueryInstance = ({ queryState }) => {
     }
 
     const removeFromQuery = ({removeIndex})=>{
+      const targetCol = activeState.queryConfig.columns[removeIndex];
+
+      //Find the column in data sources
+      const colDataSource = activeState.dataSources.find(source=>source.id===targetCol.dataSourceId);
+      const colDataSourceColIndex = colDataSource.columns.indexOf(
+        colDataSource.columns.find(col=>col.id === targetCol.columnId)
+        );
+      colDataSource.columns[colDataSourceColIndex] = {
+        ...colDataSource.columns[colDataSourceColIndex],
+        inQuery:false
+      }
+
+      
+
       activeState.queryConfig.columns.splice(removeIndex,1);
       setState({
         ...activeState,

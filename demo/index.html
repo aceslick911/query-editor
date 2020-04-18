@@ -14,17 +14,17 @@
           id: "1",
           name: "File 1",
           columns: [
-            { id: "firstname", name: "First Name" },
-            { id: "lastname", name: "Last Name" },
-                { id: "age", name: "Age" },
+            { id: "firstname", name: "First Name", inQuery:true },
+            { id: "lastname", name: "Last Name", inQuery:false },
+            { id: "age", name: "Age", inQuery:false },
           ],
         },
         {
           id: "2",
           name: "File 2",
           columns: [
-            { id: "firstname", name: "First Name" },
-            { id: "salary", name: "Salary" },
+            { id: "firstname", name: "First Name", inQuery:false, },
+            { id: "salary", name: "Salary", inQuery:true },
           ],
         },
       ];

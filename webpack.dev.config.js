@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 module.exports = {
+  devtool : 'inline-source-map',
   entry: "./src/query-editor.js",
   output: {
     libraryTarget: "var",
