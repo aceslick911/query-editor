@@ -108,6 +108,8 @@ const DraggableQueryItem = ({ colDataSource, colDataSourceCol, index }) => {
               ref={provided.innerRef}
               // style={getListStyle(snapshot.isDraggingOver)}
               key={colDataSourceCol.name}
+              className="draggableQueryField"
+              title={colDataSource.name + "." + colDataSourceCol.name}
             >
               <label>{colDataSource.name + "." + colDataSourceCol.name}</label>
             </div>
@@ -167,10 +169,11 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
       direction="horizontal"
     >
       {(provided) => (
-        <>
+        
+      <div className="wrap" ref={provided.innerRef}>
         <header>Query</header>
             <div className="fields"  ref={(ref)=>{
-              provided.innerRef(ref);
+              
               fieldsRef.current=ref;
             }
           }>
@@ -216,7 +219,7 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
             </div>
           </div>
         </div>
-        </>
+      </div>
       )}
     </Droppable>
   );
@@ -225,13 +228,11 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
 export const QueryView = ({ queryConfig, dataSources }) => {
   return (
     <div className="query-view">
-      <div className="wrap">
           <DroppableQueryView
             queryConfig={queryConfig}
             dataSources={dataSources}
           ></DroppableQueryView>
  
-      </div>
     </div>
   );
 };

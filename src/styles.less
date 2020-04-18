@@ -1,4 +1,18 @@
 .query-editor {
+  // Resets:
+  // header{
+  //   box-sizing:content-box;
+  // }
+  label{
+    display:inline;
+    margin-bottom: 0;
+  }
+
+  *, ::after, ::before {
+    box-sizing: content-box;
+  }
+
+
   button {
     background-color: yellow;
     width: 100px;
@@ -46,7 +60,7 @@
         overflow: auto;
         margin-bottom: 20px;
         position: absolute;
-        top: 40px;
+        top: 45px;
         bottom: 10px;
         left: 0;
         right: 0;
@@ -94,6 +108,9 @@
       .wrap {
         position: relative;
         height: 100%;
+        // &:hover{
+        //   background-color:rgb(218, 255, 218);
+        // }
       }
       header {
         font-weight: bold;
@@ -128,7 +145,20 @@
         left: 0;
         right: 0;
         height: 54px;
+
         
+        .draggableQueryField{
+          font-weight: bold;
+          cursor: pointer;
+          border-radius: 5px;
+          border: 1px solid black;
+          padding: 2px;   
+          width: 142px;
+          overflow: hidden;
+          text-overflow: ellipsis;    
+          direction: rtl;
+          text-align: left;   
+        }
 
         > div {
           display: inline-block;
@@ -140,10 +170,7 @@
           margin-right: -100px;
 
           label {
-            cursor: pointer;
-            border-radius: 5px;
-            border: 1px solid black;
-            padding: 2px;
+  
             // &::after {
             //   content: " x";
             // }
