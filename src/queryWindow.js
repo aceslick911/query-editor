@@ -118,20 +118,31 @@ const DraggableQueryItem = ({ colDataSource, colDataSourceCol, index }) => {
 
 const DroppableQueryView = ({ queryConfig, dataSources }) => {
   const getColumn = (dataSourceId, columnId) => {
-    return dataSources
+    const result =  dataSources
       .find((item) => item.id === dataSourceId)
       .columns.find((col) => col.id === columnId);
+      if(result==null){
+        throw new Error("Cannot find item"+dataSourceId+":"+columnId)
+      }
+      return result;
   };
 
   const rowData = () => {
     let rowData = [];
     if (queryConfig.columns.length > 0) {
-      rowData = queryConfig.columns[0].data.map(() => []);
-
+      rowData = []//queryConfig.columns[0].data.map(() => []);
+      let colIndex=0;
       for (let col of queryConfig.columns) {
         for (let rowIndex = 0; rowIndex < col.data.length; rowIndex++) {
-          rowData[rowIndex].push(col.data[rowIndex]);
+          if(rowData.length<=rowIndex){
+            rowData.push([]);
+          }
+          while(rowData[rowIndex].length<=colIndex){
+            rowData[rowIndex].push("-")
+          }
+          rowData[rowIndex][colIndex] = col.data[rowIndex];
         }
+        colIndex++;
       }
     }
     return rowData;
@@ -145,46 +156,52 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
       direction="horizontal"
     >
       {(provided) => (
-        <div className="hors-scroller" ref={provided.innerRef}>
-          <div className="fields">
-            {queryConfig.columns.map((column, index) => {
-              const colDataSource = dataSources.find(
-                (datasource) => datasource.id == column.dataSourceId
-              );
-              const colDataSourceCol = colDataSource.columns.find(
-                (col) => col.id == column.columnId
-              );
-              return (
-                <DraggableQueryItem
-                  key={column.columnId}
-                  colDataSource={colDataSource}
-                  colDataSourceCol={colDataSourceCol}
-                  index={index}
-                ></DraggableQueryItem>
-              );
-            })}
-
-            {provided.placeholder}
-          </div>
-          <div className="table">
-            <div className="columns">
-              {queryConfig.columns.map((column) => {
+        <>
+        <header>Query</header>
+            <div className="fields"  ref={provided.innerRef}>
+              {queryConfig.columns.map((column, index) => {
+                const colDataSource = dataSources.find(
+                  (datasource) => datasource.id == column.dataSourceId
+                );
+                const colDataSourceCol = colDataSource.columns.find(
+                  (col) => col.id == column.columnId
+                );
                 return (
-                  <div key={column.columnId}>
-                    {getColumn(column.dataSourceId, column.columnId).name}
-                  </div>
+                  <DraggableQueryItem
+                    key={column.columnId}
+                    colDataSource={colDataSource}
+                    colDataSourceCol={colDataSourceCol}
+                    index={index}
+                  ></DraggableQueryItem>
                 );
               })}
+
+              {provided.placeholder}
             </div>
-            {rowData().map((row) => (
-              <div key={row} className="row">
-                {row.map((col) => (
-                  <div key={col}>{col}</div>
-                ))}
+
+        <div className="scroll-wrap">
+          <div className="hors-scroller">         
+            <div className="table">
+              <div className="columns">
+                {queryConfig.columns.map((column) => {
+                  return (
+                    <div key={column.columnId}>
+                      {getColumn(column.dataSourceId, column.columnId).name}
+                    </div>
+                  );
+                })}
               </div>
-            ))}
+              {rowData().map((row) => (
+                <div key={row} className="row">
+                  {row.map((col) => (
+                    <div key={col}>{col}</div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+        </>
       )}
     </Droppable>
   );
@@ -194,30 +211,39 @@ export const QueryView = ({ queryConfig, dataSources }) => {
   return (
     <div className="query-view">
       <div className="wrap">
-        <header>Query</header>
-        <div className="scroll-wrap">
           <DroppableQueryView
             queryConfig={queryConfig}
             dataSources={dataSources}
           ></DroppableQueryView>
-        </div>
+ 
       </div>
     </div>
   );
 };
 
-export const QueryWindow = ({ state, reorderQuery }) => {
+export const QueryWindow = ({ state, reorderQuery, addToQuery }) => {
   // eslint-disable-next-line no-unused-vars
   const { dataSources, queryConfig } = state;
 
   const onDragEnd = (result) => {
+    console.log(result);
     // dropped outside the list
     if (!result.destination) {
       return;
     }
 
-    if (result.destination.droppableId == "query") {
+    if (result.source.droppableId ==="query" && result.destination.droppableId === "query") {
+      //Re-ordered query
       reorderQuery({
+        startIndex: result.source.index,
+        newIndex: result.destination.index,
+      });
+    } else
+    if (result.destination.droppableId === "query") {
+      const sourceDataSource = dataSources.find(source=>result.source.droppableId===`datasources-${source.id}`);
+      //Moved from datasource to query
+      addToQuery({
+        dataSource:sourceDataSource,
         startIndex: result.source.index,
         newIndex: result.destination.index,
       });

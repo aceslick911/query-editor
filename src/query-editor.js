@@ -48,9 +48,34 @@ const QueryInstance = ({ queryState }) => {
         },
       });
     };
+
+    const addToQuery = ({startIndex, newIndex, dataSource})=>{
+
+      console.log("Add to query",startIndex,newIndex,dataSource);
+      
+      const pluckedColumn = dataSource.columns[startIndex]//dataSource.columns.splice(startIndex,1)[0];
+      activeState.queryConfig.columns.splice(newIndex,0,{
+        type:"datasource",
+        dataSourceId:dataSource.id,
+        columnId:pluckedColumn.id,
+        data:new Array(20).fill("?")
+      });
+
+      setState({
+        ...activeState,
+        dataSources:[...activeState.dataSources],
+        queryConfig:{
+          ...activeState.queryConfig,
+          columns:[
+            ...activeState.queryConfig.columns
+          ]
+        }
+      })
+    }
+
     return (
       <div className="query-editor">
-        <QueryWindow state={state} reorderQuery={reorderQuery}></QueryWindow>
+        <QueryWindow state={state} reorderQuery={reorderQuery} addToQuery={addToQuery}></QueryWindow>
       </div>
     );
   };
