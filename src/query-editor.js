@@ -50,7 +50,7 @@ const QueryInstance = ({ queryState }) => {
       for(let rowIndex = 0;rowIndex<rows.length;rowIndex++){
         let inRow = rows[rowIndex];      
         for(let inData in inRow){        
-          colMap[inData].data.push(inData)
+          colMap[inData.columnId].data.push(inData)
         }
       }
   
