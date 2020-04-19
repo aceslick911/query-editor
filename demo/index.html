@@ -77,10 +77,13 @@
         },
       });
 
+
+      const rowSet = new Array(100).fill(null).map((val,index)=>index);
+
       const virtualScroller = qds.virtualScroller.create({
         element: document.getElementById("virtual-scroller"),
         state:{
-          
+          rows:rowSet
         }
       })
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-
+import {VSBox} from "./vs-box"
 
 const VSInstance = ({state}) =>{
     let activeState = state;
@@ -13,7 +13,7 @@ const VSInstance = ({state}) =>{
 
     const VirtualScroll = ({vsState})=>{
         return(
-            <div>Hello Virtual Scroll</div>
+            <VSBox state={vsState}></VSBox>
         )
     }
 
