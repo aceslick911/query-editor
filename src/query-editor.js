@@ -27,10 +27,10 @@ const QueryInstance = ({ queryState }) => {
   const QueryEditor = ({ queryState }) => {
     const [state, doSetState] = useState({ ...queryState }); // eslint-disable-line no-unused-vars
 
-    const setState = (newState) => {
+    const setState = (newState, ignoreHandlerUpdate) => {
       activeState = newState;
       doSetState(newState);
-      if (updateHandler) {
+      if (ignoreHandlerUpdate!==true && updateHandler) {
         updateHandler(newState);
       }
     };
@@ -39,24 +39,33 @@ const QueryInstance = ({ queryState }) => {
 
     readQueryHandler =(queryData)=>{
       const rows = queryData.results.rows;
-      
+
+      const findColName= (id)=>activeState.dataSources.find(source=>source.id===id).name
+
       // Map for fast access
       const colMap = {}
       for(let col of activeState.queryConfig.columns){
         col.data=[];
-        colMap[col.dataSourceId]=col;
+        colMap[col.columnId]=col;
+        colMap[findColName(col.dataSourceId)+"."+col.columnId]=col;
       }
   
       for(let rowIndex = 0;rowIndex<rows.length;rowIndex++){
         let inRow = rows[rowIndex];      
         for(let inData in inRow){        
-          colMap[inData.columnId].data.push(inData)
+          if(colMap[inData]!=null){
+            colMap[inData].data=[...colMap[inData].data,inRow[inData]]
+            //colMap[inData].data.push(inRow[inData])
+          }
         }
       }
   
       setState({
         ...activeState,
-      })
+        // queryConfig:{
+        //   ...activeState.queryConfig
+        // }
+      }, true)
         
     }
 
