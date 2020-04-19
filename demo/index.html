@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <!-- Load Query-Editor component. -->
-    <script src="../lib/query-editor.js"></script>
+    <script src="../../../services/Server/Server/wwwroot/lib/qds/qds.js"></script>
 
     <script lang="javascript">
       // Ensure you run code after the document has initialized
@@ -69,13 +69,20 @@
       // console.log(queryConfig.columns)
 
       // Create the component
-      const editor = queryEditor.create({
+      const editor = qds.queryEditor.create({
         element: document.getElementById("query-editor"),
         state: {
           dataSources,
           queryConfig,
         },
       });
+
+      const virtualScroller = qds.virtualScroller.create({
+        element: document.getElementById("virtual-scroller"),
+        state:{
+          
+        }
+      })
 
       // State updated
        editor.on("update",(newState)=>{
@@ -114,5 +121,6 @@
     <h1>Query-View</h1>
 
     <div id="query-editor"></div>
+    <div id="virtual-scroller"></div>
   </body>
 </html>

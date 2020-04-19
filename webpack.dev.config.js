@@ -2,12 +2,12 @@ const path = require('path');
 /* eslint-disable no-undef */
 module.exports = {
   devtool : 'inline-source-map',
-  entry: "./src/query-editor.js",
+  entry: "./src/index.js",
   output: {
     libraryTarget: "var",
-    library: "queryEditor",
-    path: path.resolve(__dirname, "../../services/Server/Server/wwwroot/lib/query-editor/"),
-    filename: "query-editor.js",
+    library: "qds",
+    path: path.resolve(__dirname, "../../services/Server/Server/wwwroot/lib/qds/"),
+    filename: "qds.js",
   },
   module: {
     rules: [
