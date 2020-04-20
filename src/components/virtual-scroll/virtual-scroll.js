@@ -3,6 +3,10 @@ import ReactDOM from "react-dom";
 
 import {VSBox} from "./vs-box"
 
+import { generateData } from './data.js';
+import "./styles.less"
+const dataSource = generateData(100);
+
 const VSInstance = ({state}) =>{
     let activeState = state;
     const handlers = {
@@ -13,12 +17,12 @@ const VSInstance = ({state}) =>{
 
     const VirtualScroll = ({vsState})=>{
         return(
-            <VSBox state={vsState}></VSBox>
+            <VSBox dataSource={activeState.dataSource}></VSBox>
         )
     }
 
     return {
-        component: <VirtualScroll vsState={state}></VirtualScroll>,
+        component: <VirtualScroll dataSource={state}></VirtualScroll>,
         getState: () => activeState,
         on: (action, handler) => {
           if (action === "click") {
@@ -45,7 +49,9 @@ const VSInstance = ({state}) =>{
 
 export const create = ({element, state})=>{    
     const instance = VSInstance({
-        state: state,
+        state:{
+            dataSource: dataSource,
+        }
       });
       const VSEditor = instance.component;
       ReactDOM.render(VSEditor, element);

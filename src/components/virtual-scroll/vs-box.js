@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 
 import DataGrid, { Scrolling, Sorting, LoadPanel } from 'devextreme-react/data-grid';
-import { generateData } from './data.js';
 
 import 'devextreme/dist/css/dx.common.css';
 import 'devextreme/dist/css/dx.light.css';
 
-import "./styles.less"
-const dataSource = generateData(100);
 
 
-export const VSBox = ({state})=>{
+
+export const VSBox = ({dataSource})=>{
 
     const [internalState, setState] = useState({
-        loadPanelEnabled:true
+        loadPanelEnabled:true,
+        dataSource:dataSource
     })
 
     const customizeColumns=(columns) =>{
