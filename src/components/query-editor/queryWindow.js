@@ -201,7 +201,7 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
           <div className="hors-scroller" onScroll={onTableScroll}>         
             <div className="table">
               <div className="columns">
-                {queryConfig.columns.map((column) => {
+                {queryConfig.columns.map((column,index) => {
                   return (
                     <div key={column.columnId}>
                       {getColumn(column.dataSourceId, column.columnId).name}
@@ -209,10 +209,10 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
                   );
                 })}
               </div>
-              {rowData().map((row) => (
-                <div key={row} className="row">
-                  {row.map((col) => (
-                    <div key={col}>{col}</div>
+              {rowData().map((row,rowIndex) => (
+                <div key={rowIndex} className="row">
+                  {row.map((col,colIndex) => (
+                    <div key={colIndex}>{col}</div>
                   ))}
                 </div>
               ))}

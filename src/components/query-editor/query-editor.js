@@ -39,32 +39,24 @@ const QueryInstance = ({ queryState }) => {
 
     readQueryHandler =(queryData)=>{
       const rows = queryData.results.rows;
-
-      const findColName= (id)=>activeState.dataSources.find(source=>source.id===id).name
-
-      // Map for fast access
-      const colMap = {}
-      for(let col of activeState.queryConfig.columns){
-        col.data=[];
-        colMap[col.columnId]=col;
-        colMap[findColName(col.dataSourceId)+"."+col.columnId]=col;
-      }
   
+      for(let col of activeState.queryConfig.columns){
+        col.data=[]
+      }  
       for(let rowIndex = 0;rowIndex<rows.length;rowIndex++){
-        let inRow = rows[rowIndex];      
-        for(let inData in inRow){        
-          if(colMap[inData]!=null){
-            colMap[inData].data=[...colMap[inData].data,inRow[inData]]
-            //colMap[inData].data.push(inRow[inData])
-          }
-        }
+        for(let colindex=0;colindex<activeState.queryConfig.columns.length;colindex++){
+          activeState.queryConfig.columns[colindex].data.push(rows[rowIndex][colindex])
+        }  
       }
   
       setState({
         ...activeState,
-        // queryConfig:{
-        //   ...activeState.queryConfig
-        // }
+        queryConfig:{
+          ...activeState.queryConfig,
+          columns:[
+            ...activeState.queryConfig.columns
+          ]
+        }
       }, true)
         
     }
@@ -92,7 +84,7 @@ const QueryInstance = ({ queryState }) => {
         type:"datasource",
         dataSourceId:dataSource.id,
         columnId:pluckedColumn.id,
-        data:new Array(20).fill("?")
+        data:new Array(activeState.queryConfig.columns.length>0?activeState.queryConfig.columns[0].data.length:20).fill("Loading...")
       });
 
       // set the inQuery property

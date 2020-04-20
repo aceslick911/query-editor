@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+// import 'react-virtualized/styles.css';
+
 export const VSBox = ({state})=>{
 
     return (<div>
