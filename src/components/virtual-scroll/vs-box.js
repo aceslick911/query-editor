@@ -16,7 +16,9 @@ export const VSBox = ({dataSource})=>{
     })
 
     const customizeColumns=(columns) =>{
-        columns[0].width = 70;
+      // if(columns.length>0){
+      //   columns[0].width = 70;
+      // }
       }
 
     const onContentReady=() =>{
@@ -25,8 +27,8 @@ export const VSBox = ({dataSource})=>{
     });
     }
 
-    return (<div>
-        <h1>Hello</h1>
+    return (
+      <div className="fill-wrap">
         <DataGrid
         elementAttr={{
           id: 'gridContainer'
@@ -41,5 +43,6 @@ export const VSBox = ({dataSource})=>{
         <Scrolling mode="virtual" />
         <LoadPanel enabled={internalState.loadPanelEnabled} />
       </DataGrid>
-    </div>)
+    </div>
+)
 }

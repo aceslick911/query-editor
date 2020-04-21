@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import {VSBox} from "../virtual-scroll/vs-box"
+
 const DraggableDataSource = ({ source, col, index }) => {
   // const getListStyle = (snapshot) => {
   //   const style = {
@@ -161,6 +163,20 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
     }
   }
 
+  const dataSourceGenerator = ()=>{
+    const rows = [];
+    for(let col of queryConfig.columns){
+      let rowIndex=0;
+      for(let rowdata of col.data){
+        rows[rowIndex]= rows[rowIndex] || {};
+        rows[rowIndex][col.columnId]=rowdata;
+        rowIndex++;
+      }
+    }    
+    
+    return rows;
+  }
+
   return (
     <Droppable
       droppableId={"query"}
@@ -196,8 +212,8 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
 
               {provided.placeholder}
             </div>
-
-        <div className="scroll-wrap">
+        <VSBox dataSource={dataSourceGenerator()}></VSBox>
+        {/* <div className="scroll-wrap">
           <div className="hors-scroller" onScroll={onTableScroll}>         
             <div className="table">
               <div className="columns">
@@ -218,7 +234,7 @@ const DroppableQueryView = ({ queryConfig, dataSources }) => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       )}
     </Droppable>
