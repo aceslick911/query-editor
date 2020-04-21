@@ -41,7 +41,7 @@ export const API = {
                         if(!query.plan.completed){
                             console.log("Plan not ready.. waiting 1 second..")
                             setTimeout(()=>{
-                                return API.query.getQuery(queryId);
+                                resolve(API.query.getQuery(queryId));
                             },1000);
                         } else {
                             console.log("Query ready",query)
