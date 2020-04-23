@@ -215,29 +215,14 @@ const DroppableQueryView = ({ queryConfig, dataSources, setActions }) => {
 
             {provided.placeholder}
           </div>
-          <VSBox dataSource={dataSourceGenerator()}></VSBox>
-          {/* <div className="scroll-wrap">
-          <div className="hors-scroller" onScroll={onTableScroll}>         
-            <div className="table">
-              <div className="columns">
-                {queryConfig.columns.map((column,index) => {
-                  return (
-                    <div key={column.columnId}>
-                      {getColumn(column.dataSourceId, column.columnId).name}
-                    </div>
-                  );
-                })}
-              </div>
-              {rowData().map((row,rowIndex) => (
-                <div key={rowIndex} className="row">
-                  {row.map((col,colIndex) => (
-                    <div key={colIndex}>{col}</div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div> */}
+          <VSBox
+            dataSource={dataSourceGenerator()}
+            onScroll={() => (e) => {
+              if (fieldsRef.current != null) {
+                fieldsRef.current.scrollLeft = e.scrollOffset.left;
+              }
+            }}
+          ></VSBox>
         </div>
       )}
     </Droppable>

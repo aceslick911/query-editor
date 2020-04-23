@@ -63,10 +63,6 @@ export const VSBox = ({ dataSource, onScroll }) => {
 
         customizeColumns={customizeColumns}
         onContentReady={onContentReady}
-
-        getScrollable={(data) => {
-          console.log("SCOLL", data);
-        }}
       >
         <Scrolling
           useNative={true}
