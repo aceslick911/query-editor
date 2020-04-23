@@ -33,9 +33,15 @@ export const VSBox = ({dataSource})=>{
         elementAttr={{
           id: 'gridContainer'
         }}
-        rowAlternationEnabled={true}
         dataSource={dataSource}
+        
         showBorders={true}
+        allowColumnResizing={true}
+        columnAutoWidth={true}
+        showBorders={true}
+        rowAlternationEnabled={true}
+        columnResizingMode={"widget"}
+        
         customizeColumns={customizeColumns}
         onContentReady={onContentReady}
       >
