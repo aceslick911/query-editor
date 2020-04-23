@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Load Query-Editor component. -->
-    <script src="../../../services/Server/Server/wwwroot/lib/qds/qds.js"></script>
 
-    <script lang="javascript">
-      // Ensure you run code after the document has initialized
-      document.addEventListener("DOMContentLoaded", ()=> {
+<head>
+  <!-- Load Query-Editor component. -->
+  <script src="../../../services/Server/Server/wwwroot/lib/qds/qds.js"></script>
+
+  <script lang="javascript">
+    // Ensure you run code after the document has initialized
+    document.addEventListener("DOMContentLoaded", () => {
 
       // Initialize some mock data
       const dataSources = [
@@ -14,17 +15,17 @@
           id: "1",
           name: "File 1",
           columns: [
-            { id: "firstname", name: "First Name", inQuery:true },
-            { id: "lastname", name: "Last Name", inQuery:false },
-            { id: "age", name: "Age", inQuery:false },
+            { id: "firstname", name: "First Name", inQuery: true },
+            { id: "lastname", name: "Last Name", inQuery: false },
+            { id: "age", name: "Age", inQuery: false },
           ],
         },
         {
           id: "2",
           name: "File 2",
           columns: [
-            { id: "firstname", name: "First Name", inQuery:false, },
-            { id: "salary", name: "Salary", inQuery:true },
+            { id: "firstname", name: "First Name", inQuery: false, },
+            { id: "salary", name: "Salary", inQuery: true },
           ],
         },
       ];
@@ -46,7 +47,7 @@
           },
         ],
         // data: [{
-          
+
         // }]
         join: {
           joinType: "fuzzy",
@@ -81,54 +82,61 @@
       });
 
 
-      const rowSet = new Array(100).fill(null).map((val,index)=>index);
+      const rowSet = new Array(100).fill(null).map((val, index) => index);
 
       const virtualScroller = qds.virtualScroller.create({
         element: document.getElementById("virtual-scroller"),
-        state:{
-          rows:rowSet
+        state: {
+          rows: rowSet
         }
+      })
+
+      virtualScroller.on("scroll", (e) => {
+        console.log("DID SCROLL", e)
+        editor.scrollColumns(e);
       })
 
       // State updated
-       editor.on("update",(newState)=>{
-          console.log("Handled UPDATE event", newState);
-        }
+      editor.on("update", (newState) => {
+        console.log("Handled UPDATE event", newState);
+      }
       )
 
 
-          // // Trigger on specific events
-          // editor.on("click",()=>{
-          //     console.log("Handled click event");
-          //     // Get back the active state
-          //     const outputState = editor.getState();
-          //     console.log(outputState);
-          //   }
-          // )
+      // // Trigger on specific events
+      // editor.on("click",()=>{
+      //     console.log("Handled click event");
+      //     // Get back the active state
+      //     const outputState = editor.getState();
+      //     console.log(outputState);
+      //   }
+      // )
 
-          // // This is how you update the state externally
-          // editor.updateState({
-          //   dataSources,
-          //   queryConfig,
-          // })
+      // // This is how you update the state externally
+      // editor.updateState({
+      //   dataSources,
+      //   queryConfig,
+      // })
 
-      })
-    </script>
+    })
+  </script>
 
-    <style type="text/css">
-      #query-editor {
-        width: 50%;
-        height: 400px;
-        border: 1px solid black;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Query-View</h1>
+  <style type="text/css">
+    #query-editor {
+      width: 50%;
+      height: 400px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
 
-    <div id="query-editor"></div>
-    <div id="virtual-wrap">
-      <div id="virtual-scroller"></div>
-    </div>
-  </body>
+<body>
+  <h1>Query-View</h1>
+
+  <div id="query-editor"></div>
+  <div id="virtual-wrap">
+    <div id="virtual-scroller"></div>
+  </div>
+</body>
+
 </html>
