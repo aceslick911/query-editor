@@ -103,6 +103,13 @@
       )
 
 
+
+
+      const progressGauge = qds.progress.create({
+        element: document.getElementById("virtual-scroller"),
+        state: null
+      })
+
       // // Trigger on specific events
       // editor.on("click",()=>{
       //     console.log("Handled click event");
@@ -137,6 +144,7 @@
   <div id="virtual-wrap">
     <div id="virtual-scroller"></div>
   </div>
+  <div id="progress"></div>
 </body>
 
 </html>
