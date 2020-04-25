@@ -46,15 +46,18 @@ export const API = {
                 })
         }),
         // https://localhost:5001/api/Query/get?id=b3bddd09-d81a-4841-9bd9-bea458639053
-        getQueryResult: (queryId, queryStartTime = Number(new Date())) => new Promise((resolve, reject) => {
+        getQueryResult: (queryId, progressUpdate, queryStartTime = Number(new Date())) => new Promise((resolve, reject) => {
             console.log("Querying " + queryId);
             API.query.getQuery(queryId).then((query) => {
                 const timeTaken = (Number(new Date()) - queryStartTime) / 1000;
                 console.log("Query time taken - " + timeTaken);
                 if (!query.plan.completed) {
                     console.log("Plan not ready.. waiting 1 second..", query.plan.phases, query.plan.progress)
+                    if (progressUpdate != null) {
+                        progressUpdate(query.plan);
+                    }
                     setTimeout(() => {
-                        resolve(API.query.getQueryResult(queryId, queryStartTime));
+                        resolve(API.query.getQueryResult(queryId, progressUpdate, queryStartTime));
                     }, 1000);
                 } else {
                     console.log("Query ready", query)

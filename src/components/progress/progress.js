@@ -21,11 +21,15 @@ let intervalId;
 const ProgressInstance = ({ state }) => {
 
     let activeState = {
+        progress: 0,
+        max: 100,
         seconds: maxValue,
         buttonText: 'Start progress',
         inProgress: false
     };
-    let actions = null;
+    let actions = {
+        setProgress: null
+    };
     let handlers = {
 
     };
@@ -42,6 +46,14 @@ const ProgressInstance = ({ state }) => {
                 ...newState
             };
             doSetState(activeState);
+        }
+
+        actions.setProgress = (current, max, seconds) => {
+            setState({
+                seconds: seconds,
+                progress: current,
+                max: max
+            })
         }
 
 
@@ -95,9 +107,9 @@ const ProgressInstance = ({ state }) => {
                     className={progressState.seconds == 0 ? 'complete' : ''}
                     width="90%"
                     min={0}
-                    max={maxValue}
+                    max={progressState.max}
                     statusFormat={statusFormat}
-                    value={maxValue - progressState.seconds}
+                    value={progressState.progress}
                 />
             </div>
         )
@@ -111,8 +123,8 @@ const ProgressInstance = ({ state }) => {
                     return;
             }
         },
-        setProgress: (current, max) => {
-
+        setProgress: (current, max, seconds) => {
+            actions.setProgress(current, max, seconds)
         }
     }
 }
