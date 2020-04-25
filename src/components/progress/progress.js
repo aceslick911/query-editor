@@ -8,7 +8,7 @@ import { Button } from 'devextreme-react/button';
 const maxValue = 10;
 
 const formatTime = (value) => {
-    return `00:00:${(`0${value}`).slice(-2)}`;
+    return `00:${Math.trunc(value / 60)}:${(`0${value - (Math.trunc(value / 60) * 60)}`).slice(-2)}`;
 }
 
 const statusFormat = (value) => {
@@ -21,11 +21,12 @@ let intervalId;
 const ProgressInstance = ({ state }) => {
 
     let activeState = {
-        progress: 0,
+        progress: maxValue,
         max: 100,
         seconds: maxValue,
         buttonText: 'Start progress',
-        inProgress: false
+        inProgress: false,
+        label: "Ready"
     };
     let actions = {
         setProgress: null
@@ -48,11 +49,12 @@ const ProgressInstance = ({ state }) => {
             doSetState(activeState);
         }
 
-        actions.setProgress = (current, max, seconds) => {
+        actions.setProgress = (current, max, seconds, label) => {
             setState({
                 seconds: seconds,
                 progress: current,
-                max: max
+                max: max,
+                label
             })
         }
 
@@ -100,7 +102,7 @@ const ProgressInstance = ({ state }) => {
                     onClick={onButtonClick}
                 />
                 <div className="progress-info">
-                    Time left {formatTime(progressState.seconds)}
+                    Time left {formatTime(progressState.seconds)} - {progressState.label}
                 </div>
                 <ProgressBar
                     id="progress-bar-status"
@@ -123,8 +125,8 @@ const ProgressInstance = ({ state }) => {
                     return;
             }
         },
-        setProgress: (current, max, seconds) => {
-            actions.setProgress(current, max, seconds)
+        setProgress: (current, max, seconds, label) => {
+            actions.setProgress(current, max, seconds, label)
         }
     }
 }

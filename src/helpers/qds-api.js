@@ -61,6 +61,11 @@ export const API = {
                     }, 1000);
                 } else {
                     console.log("Query ready", query)
+                    progressUpdate({
+                        phases: ["Complete"],
+                        timeRemaining: 0,
+                        progress: [1],
+                    });
                     resolve(query)
                 }
             }).catch(reason => reject(reason))
