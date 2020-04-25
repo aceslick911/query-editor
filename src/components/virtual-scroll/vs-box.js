@@ -34,11 +34,11 @@ export const VSBox = ({ dataSource, onScroll }) => {
       const instance = dataGridWidget.current.instance;
       const scrollable = instance.getScrollable();
       if (scrollable != null) {
-        scrollable.option().onScroll = (e) => {
+        scrollable.on("scroll", (e) => {
           if (onScroll() != null) {
             onScroll()(e)
           }
-        }
+        })
       }
     }
   }, [dataGridWidget.current]);
