@@ -11,7 +11,7 @@ const maxValue = 10;
 
 const formatTime = (seconds) => {
     if (seconds == 0) {
-        return ""
+        return "Ready"
     } else {
         return moment.duration(seconds, "s").format("hh:mm:ss") + " remaining";
     }
