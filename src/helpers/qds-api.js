@@ -57,20 +57,40 @@ export const API = {
                         progressUpdate(query.plan);
                     }
                     setTimeout(() => {
-                        resolve(API.query.getQueryResult(queryId, progressUpdate, queryStartTime));
+                        resolve(
+                            API.query.getQueryResult(queryId, progressUpdate, queryStartTime)
+                        );
                     }, 1000);
                 } else {
                     console.log("Query ready", query)
-                    progressUpdate({
-                        phases: ["Complete"],
-                        timeRemaining: 0,
-                        progress: [1],
-                    });
-                    resolve(query)
+                    // progressUpdate({
+                    //     phases: ["Complete"],
+                    //     timeRemaining: 0,
+                    //     progress: [1],
+                    // });
+                    resolve(
+                        API.query.getResultsFromQuery(queryId)
+                    )
                 }
             }).catch(reason => reject(reason))
         }),
-
+        // https://localhost:5001/api/Resultset/836558a0-0259-48fd-b968-121eacbe4d25?page=0&pagesize=20
+        getResultsFromQuery: (queryId) => new Promise((resolve, reject) => {
+            console.log("Querying " + queryId);
+            fetch("/api/Resultset/" + queryId, {
+                method: 'GET',
+                headers: new Headers()
+            })
+                .then((resp) => {
+                    if (resp.status >= 200 && resp.status < 300) {
+                        resp.json().then(query => {
+                            resolve(query)
+                        })
+                    } else {
+                        reject(resp)
+                    }
+                })
+        }),
         // https://localhost:5001/api/Query/All
         getAllQueries: () => new Promise((resolve, reject) => {
             fetch("/api/Query/All", {

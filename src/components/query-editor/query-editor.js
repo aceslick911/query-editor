@@ -44,7 +44,7 @@ const QueryInstance = ({ queryState }) => {
     stateUpdater = setState;
 
     readQueryHandler = (queryData) => {
-      const rows = queryData.results.rows;
+      const rows = queryData.rows;
 
       for (let col of activeState.queryConfig.columns) {
         col.data = []
