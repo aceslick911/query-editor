@@ -25,6 +25,8 @@
     "devextreme-react": "^19.2.7",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
+    "moment": "^2.24.0",
+    "moment-duration-format": "^2.3.2",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",

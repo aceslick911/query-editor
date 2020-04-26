@@ -4,15 +4,22 @@ import ReactDOM from "react-dom";
 
 import { ProgressBar } from 'devextreme-react/progress-bar';
 import { Button } from 'devextreme-react/button';
+import moment from 'moment'
+import momentDurationFormatSetup from 'moment-duration-format';
 
 const maxValue = 10;
 
-const formatTime = (value) => {
-    return `00:${Math.trunc(value / 60)}:${(`0${value - (Math.trunc(value / 60) * 60)}`).slice(-2)}`;
+const formatTime = (seconds) => {
+    if (seconds == 0) {
+        return ""
+    } else {
+        return moment.duration(seconds, "s").format("hh:mm");
+    }
+    //return `00:${Math.trunc(value / 60)}:${(`0${value - (Math.trunc(value / 60) * 60)}`).slice(-2)}`;
 }
 
 const statusFormat = (value) => {
-    return `Loading: ${value * 100}%`;
+    return `Loading: ${Math.round(value * 100) / 100 * 100}%`;
 }
 
 let intervalId;
@@ -102,7 +109,7 @@ const ProgressInstance = ({ state }) => {
                     onClick={onButtonClick}
                 />
                 <div className="progress-info">
-                    Time left {formatTime(progressState.seconds)} - {progressState.label}
+                    {progressState.label} - {formatTime(progressState.seconds)}
                 </div>
                 <ProgressBar
                     id="progress-bar-status"
