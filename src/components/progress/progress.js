@@ -13,7 +13,7 @@ const formatTime = (seconds) => {
     if (seconds == 0) {
         return ""
     } else {
-        return moment.duration(seconds, "s").format("hh:mm");
+        return moment.duration(seconds, "s").format("hh:mm:ss") + " remaining";
     }
     //return `00:${Math.trunc(value / 60)}:${(`0${value - (Math.trunc(value / 60) * 60)}`).slice(-2)}`;
 }
@@ -66,55 +66,15 @@ const ProgressInstance = ({ state }) => {
         }
 
 
-        const onButtonClick = () => {
-            const state = {
-                inProgress: !activeState.inProgress
-            };
-
-            if (activeState.inProgress) {
-                state.buttonText = 'Continue progress';
-                clearInterval(intervalId);
-            } else {
-                state.buttonText = 'Stop progress';
-
-                if (activeState.seconds === 0) {
-                    state.seconds = maxValue;
-                }
-
-                intervalId = setInterval(() => timer(), 1000);
-            }
-
-            setState(state);
-        }
-
-        const timer = () => {
-            const state = {
-                seconds: activeState.seconds - 1
-            };
-
-            if (state.seconds == 0) {
-                state.buttonText = 'Restart progress';
-                state.inProgress = !activeState.inProgress;
-                clearInterval(intervalId);
-            }
-
-            setState(state);
-        }
         return (
             <div className="form">
-                <Button
-                    id="progress-button"
-                    text={progressState.buttonText}
-                    width={200}
-                    onClick={onButtonClick}
-                />
                 <div className="progress-info">
                     {progressState.label} - {formatTime(progressState.seconds)}
                 </div>
                 <ProgressBar
                     id="progress-bar-status"
                     className={progressState.seconds == 0 ? 'complete' : ''}
-                    width="90%"
+                    width="100%"
                     min={0}
                     max={progressState.max}
                     statusFormat={statusFormat}
