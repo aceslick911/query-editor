@@ -28,7 +28,6 @@ export const API = {
         // https://localhost:5001/api/Query/get?id=b3bddd09-d81a-4841-9bd9-bea458639053
         getQuery: (queryId) => new Promise((resolve, reject) => {
             console.log("Querying " + queryId);
-
             fetch("/api/Query/get?" + objectToQueryString({
                 id: queryId
             }), {
@@ -51,7 +50,11 @@ export const API = {
             API.query.getQuery(queryId).then((query) => {
                 const timeTaken = (Number(new Date()) - queryStartTime) / 1000;
                 console.log("Query time taken - " + timeTaken);
-                if (!query.plan.completed) {
+                if (!query.plan.completed
+                    //||
+                    //Need to fix this as rows may be less than 100
+                    //query.plan.readyRows < 100
+                ) {
                     console.log("Plan not ready.. waiting 1 second..", query.plan.phases, query.plan.progress)
                     if (progressUpdate != null) {
                         progressUpdate(query.plan);
@@ -69,15 +72,18 @@ export const API = {
                     //     progress: [1],
                     // });
                     resolve(
-                        API.query.getResultsFromQuery(queryId)
+                        API.query.getResultsFromQuery(queryId, 0, 100)
                     )
                 }
             }).catch(reason => reject(reason))
         }),
         // https://localhost:5001/api/Resultset/836558a0-0259-48fd-b968-121eacbe4d25?page=0&pagesize=20
-        getResultsFromQuery: (queryId) => new Promise((resolve, reject) => {
+        getResultsFromQuery: (queryId, page, pagesize) => new Promise((resolve, reject) => {
             console.log("Querying " + queryId);
-            fetch("/api/Resultset/" + queryId, {
+            fetch("/api/Resultset/" + queryId + "?" + objectToQueryString({
+                page,
+                pagesize,
+            }), {
                 method: 'GET',
                 headers: new Headers()
             })
