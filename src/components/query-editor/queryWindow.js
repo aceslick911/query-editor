@@ -123,7 +123,7 @@ const DraggableQueryItem = ({ colDataSource, colDataSourceCol, index }) => {
   );
 };
 
-const DroppableQueryView = ({ queryConfig, dataSources, setActions }) => {
+const DroppableQueryView = ({ queryConfig, dataSources, setActions, handlers }) => {
 
   setActions({
     scrollColumns: (e) => {
@@ -222,6 +222,7 @@ const DroppableQueryView = ({ queryConfig, dataSources, setActions }) => {
                 fieldsRef.current.scrollLeft = e.scrollOffset.left;
               }
             }}
+            handlers={handlers}
           ></VSBox>
         </div>
       )}
@@ -231,7 +232,8 @@ const DroppableQueryView = ({ queryConfig, dataSources, setActions }) => {
 
 export const QueryView = ({ queryConfig,
   dataSources,
-  setActions
+  setActions,
+  handlers,
 }) => {
   return (
     <div className="query-view">
@@ -239,6 +241,7 @@ export const QueryView = ({ queryConfig,
         queryConfig={queryConfig}
         dataSources={dataSources}
         setActions={setActions}
+        handlers={handlers}
       ></DroppableQueryView>
 
     </div>
@@ -250,7 +253,9 @@ export const QueryWindow = ({
   reorderQuery,
   addToQuery,
   removeFromQuery,
-  setActions }) => {
+  setActions,
+  handlers
+}) => {
   // eslint-disable-next-line no-unused-vars
   const { dataSources, queryConfig } = state;
 
@@ -313,6 +318,7 @@ export const QueryWindow = ({
             queryConfig={queryConfig}
             dataSources={dataSources}
             setActions={(newActions => actions.queryViewActions = newActions)}
+            handlers={handlers}
           ></QueryView>
         </div>
       </DragDropContext>

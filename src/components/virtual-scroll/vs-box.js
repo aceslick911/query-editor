@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import DataGrid, { Scrolling, Sorting, LoadPanel } from 'devextreme-react/data-grid';
+import DataGrid, { Scrolling, Sorting, LoadPanel, Pager, Paging } from 'devextreme-react/data-grid';
+
+import CustomStore from 'devextreme/data/custom_store';
 
 import 'devextreme/dist/css/dx.common.css';
 import 'devextreme/dist/css/dx.light.css';
@@ -8,7 +10,7 @@ import 'devextreme/dist/css/dx.light.css';
 
 
 
-export const VSBox = ({ dataSource, onScroll }) => {
+export const VSBox = ({ dataSource, onScroll, handlers }) => {
 
   const dataGridWidget = useRef()
 
@@ -23,11 +25,58 @@ export const VSBox = ({ dataSource, onScroll }) => {
     // }
   }
 
-  const onContentReady = () => {
-    setState({
-      loadPanelEnabled: false
-    });
+  // const onContentReady = () => {
+  //   setState({
+  //     loadPanelEnabled: false
+  //   });
+  // }
+
+  const store = new CustomStore({
+    key: '0',
+    load: (loadOptions) => {
+      console.log("REQUEST DATA", loadOptions);
+
+      return new Promise((resolve, reject) => {
+        if (handlers.requestData != null) {
+          resolve(handlers.requestData(loadOptions));
+
+        } else {
+          reject("No request data handler set");
+        }
+      })
+    }
   }
+    //   let params = '?';
+
+    //   [
+    //     'skip',
+    //     'take',
+    //     'requireTotalCount',
+    //     'requireGroupCount',
+    //     'sort',
+    //     'filter',
+    //     'totalSummary',
+    //     'group',
+    //     'groupSummary'
+    //   ].forEach(function(i) {
+    //     if (i in loadOptions && isNotEmpty(loadOptions[i]))
+    //     { params += `${i}=${JSON.stringify(loadOptions[i])}&`; }
+    //   });
+
+    //   params = params.slice(0, -1);
+    //   return fetch(`https://js.devexpress.com/Demos/WidgetsGalleryDataService/api/orders${params}`)
+    //     .then(response => response.json())
+    //     .then((data) => {
+    //       return {
+    //         data: data.data,
+    //         totalCount: data.totalCount,
+    //         summary: data.summary,
+    //         groupCount: data.groupCount
+    //       };
+    //     })
+    //     .catch(() => { throw 'Data Loading Error'; });
+    // }
+  );
 
   useEffect(() => {
     if (dataGridWidget.current != null) {
@@ -51,7 +100,9 @@ export const VSBox = ({ dataSource, onScroll }) => {
         elementAttr={{
           id: 'gridContainer'
         }}
-        dataSource={dataSource}
+        // dataSource={dataSource}
+        dataSource={store}
+        remoteOperations={true}
 
         showBorders={true}
         // allowColumnResizing={true}
@@ -59,17 +110,23 @@ export const VSBox = ({ dataSource, onScroll }) => {
         // columnAutoWidth={true}
         showBorders={true}
         rowAlternationEnabled={true}
+
         columnResizingMode={"widget"}
 
-        customizeColumns={customizeColumns}
-        onContentReady={onContentReady}
+        // customizeColumns={customizeColumns}
+        // onContentReady={onContentReady}
+        remoteOperations={true}
+
+
       >
+
         <Scrolling
           useNative={true}
+          mode="virtual"
         />
 
         <Sorting mode="none" />
-        <Scrolling mode="virtual" />
+        <Paging pageSize="100" />
         <LoadPanel enabled={internalState.loadPanelEnabled} />
       </DataGrid>
     </div>

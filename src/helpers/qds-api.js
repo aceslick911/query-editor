@@ -72,13 +72,13 @@ export const API = {
                     //     progress: [1],
                     // });
                     resolve(
-                        API.query.getResultsFromQuery(queryId, 0, 100)
+                        API.query.getResultsFromQuery(queryId, 0, 100, query.plan.readyRows)
                     )
                 }
             }).catch(reason => reject(reason))
         }),
         // https://localhost:5001/api/Resultset/836558a0-0259-48fd-b968-121eacbe4d25?page=0&pagesize=20
-        getResultsFromQuery: (queryId, page, pagesize) => new Promise((resolve, reject) => {
+        getResultsFromQuery: (queryId, page, pagesize, totalRows = 1000) => new Promise((resolve, reject) => {
             console.log("Querying " + queryId);
             fetch("/api/Resultset/" + queryId + "?" + objectToQueryString({
                 page,
@@ -90,7 +90,10 @@ export const API = {
                 .then((resp) => {
                     if (resp.status >= 200 && resp.status < 300) {
                         resp.json().then(query => {
-                            resolve(query)
+                            resolve({
+                                ...query,
+                                totalRows
+                            })
                         })
                     } else {
                         reject(resp)

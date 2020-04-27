@@ -28,6 +28,10 @@ const QueryInstance = ({ queryState }) => {
     actions = newActions;
   }
 
+  let handlers = {
+    requestData: null,
+  }
+
 
   // eslint-disable-next-line react/prop-types
   const QueryEditor = ({ queryState }) => {
@@ -152,6 +156,7 @@ const QueryInstance = ({ queryState }) => {
           addToQuery={addToQuery}
           removeFromQuery={removeFromQuery}
           setActions={setActions}
+          handlers={handlers}
         ></QueryWindow>
       </div>
     );
@@ -169,6 +174,9 @@ const QueryInstance = ({ queryState }) => {
       }
       if (action === "update") {
         updateHandler = handler;
+      }
+      if (action === "requestData") {
+        handlers.requestData = handler;
       }
     },
     updateState: (newState) => {

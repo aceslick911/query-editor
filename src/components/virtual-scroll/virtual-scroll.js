@@ -14,6 +14,7 @@ const VSInstance = ({ state }) => {
     update: null,
     readQuery: null,
     scroll: null,
+    requestData: null
   }
 
   const VirtualScroll = ({ vsState }) => {
@@ -21,14 +22,13 @@ const VSInstance = ({ state }) => {
       <VSBox
         dataSource={activeState.dataSource}
         onScroll={() => handlers.scroll}
+        handlers={handlers}
       ></VSBox>
     )
   }
 
   return {
-    component: <VirtualScroll
-      dataSource={state}
-    ></VirtualScroll>,
+    component: <VirtualScroll></VirtualScroll>,
     getState: () => activeState,
     on: (action, handler) => {
       switch (action) {
@@ -42,6 +42,10 @@ const VSInstance = ({ state }) => {
         }
         case "scroll": {
           handlers.scroll = handler;
+          return;
+        }
+        case "requestData": {
+          handlers.requestData = handler;
           return;
         }
       }
