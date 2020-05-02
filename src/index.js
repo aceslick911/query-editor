@@ -1,20 +1,26 @@
-import { API as QDSApi } from "./helpers/qds-api"
+import { API as QDSApi } from "./helpers/qds-api";
 
-import { create as createQueryEditor } from "./components/query-editor/query-editor"
-import { create as createVirtualScroll } from "./components/virtual-scroll/virtual-scroll"
+import { create as createQueryEditor } from "./components/query-editor/query-editor";
+import { create as createVirtualScroll } from "./components/virtual-scroll/virtual-scroll";
 
-import { create as createProgress } from "./components/progress/progress"
+import { create as createProgress } from "./components/progress/progress";
+
+import { create as createQuint } from "./app/quint";
+
+export const quint = {
+  create: createQuint,
+};
 
 export const queryEditor = {
-    create: createQueryEditor,
-}
+  create: createQueryEditor,
+};
 
 export const virtualScroller = {
-    create: createVirtualScroll
-}
+  create: createVirtualScroll,
+};
 
 export const progress = {
-    create: createProgress
-}
+  create: createProgress,
+};
 
-export const API = QDSApi
+export const API = QDSApi;
