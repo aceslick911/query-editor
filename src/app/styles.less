@@ -4,13 +4,48 @@
 }
 
 .quint-main {
-  h1 {
-    font-family: "Poppins";
+  font-family: "Poppins";
+
+  .flashCard {
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-left: -100px;
-    margin-top: -100px;
     font-size: 60px;
+    > div {
+      position: relative;
+      margin-left: -50%;
+      margin-top: -50%;
+      div {
+        width: 100px;
+        height: 100%;
+        background: rgb(255, 255, 255);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0%,
+          #ffffff 25%,
+          #ffffff 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        animation: flashright 2s;
+        animation-iteration-count: infinite;
+        animation-fill-mode: forwards;
+      }
+    }
+    h1 {
+      font-family: "Poppins";
+    }
+  }
+}
+
+@keyframes flashright {
+  from {
+    left: -10%;
+  }
+  to {
+    left: 110%;
   }
 }

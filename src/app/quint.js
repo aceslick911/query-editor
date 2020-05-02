@@ -6,8 +6,13 @@ import "./styles.less";
 const QuintInstance = ({ quintState }) => {
   const Quint = () => {
     return (
-      <div class="quint-main">
-        <h1>Quint</h1>
+      <div className="quint-main">
+        <div className="flashCard">
+          <div>
+            <h1>Quint</h1>
+            <div></div>
+          </div>
+        </div>
       </div>
     );
   };
