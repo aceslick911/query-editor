@@ -176,7 +176,7 @@ export const API = {
 
     uploadFiles: (files) => {
       console.log("uploading files", files);
-      files.forEach((file) => API.uploadFile(file));
+      files.forEach((file) => API.upload.uploadFile(file));
     },
   },
 };
