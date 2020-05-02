@@ -5,7 +5,11 @@ import "./styles.less";
 
 const QuintInstance = ({ quintState }) => {
   const Quint = () => {
-    return <h1>Helloooo</h1>;
+    return (
+      <div class="quint-main">
+        <h1>Quint</h1>
+      </div>
+    );
   };
 
   return {
