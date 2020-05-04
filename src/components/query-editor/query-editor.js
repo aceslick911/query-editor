@@ -21,17 +21,16 @@ const QueryInstance = ({ queryState }) => {
   let clickHandler = null; // eslint-disable-line no-unused-vars
   let updateHandler = null; // eslint-disable-line no-unused-vars
 
-  let readQueryHandler = null;// eslint-disable-line no-unused-vars
+  let readQueryHandler = null; // eslint-disable-line no-unused-vars
 
   let actions = null;
   const setActions = (newActions) => {
     actions = newActions;
-  }
+  };
 
   let handlers = {
     requestData: null,
-  }
-
+  };
 
   // eslint-disable-next-line react/prop-types
   const QueryEditor = ({ queryState }) => {
@@ -51,25 +50,31 @@ const QueryInstance = ({ queryState }) => {
       const rows = queryData.rows;
 
       for (let col of activeState.queryConfig.columns) {
-        col.data = []
+        col.data = [];
       }
       for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-        for (let colindex = 0; colindex < activeState.queryConfig.columns.length; colindex++) {
-          activeState.queryConfig.columns[colindex].data.push(rows[rowIndex][colindex])
+        for (
+          let colindex = 0;
+          colindex < activeState.queryConfig.columns.length;
+          colindex++
+        ) {
+          activeState.queryConfig.columns[colindex].data.push(
+            rows[rowIndex][colindex]
+          );
         }
       }
 
-      setState({
-        ...activeState,
-        queryConfig: {
-          ...activeState.queryConfig,
-          columns: [
-            ...activeState.queryConfig.columns
-          ]
-        }
-      }, true)
-
-    }
+      setState(
+        {
+          ...activeState,
+          queryConfig: {
+            ...activeState.queryConfig,
+            columns: [...activeState.queryConfig.columns],
+          },
+        },
+        true
+      );
+    };
 
     const reorderQuery = ({ startIndex, newIndex }) => {
       setState({
@@ -86,67 +91,64 @@ const QueryInstance = ({ queryState }) => {
     };
 
     const addToQuery = ({ startIndex, newIndex, dataSource }) => {
-
       console.log("Add to query", startIndex, newIndex, dataSource);
 
-      const pluckedColumn = dataSource.columns[startIndex]//dataSource.columns.splice(startIndex,1)[0];
+      const pluckedColumn = dataSource.columns[startIndex]; //dataSource.columns.splice(startIndex,1)[0];
       activeState.queryConfig.columns.splice(newIndex, 0, {
         type: "datasource",
         dataSourceId: dataSource.id,
         columnId: pluckedColumn.id,
-        data: new Array(activeState.queryConfig.columns.length > 0 ? activeState.queryConfig.columns[0].data.length : 20).fill("Loading...")
+        data: new Array(
+          activeState.queryConfig.columns.length > 0
+            ? activeState.queryConfig.columns[0].data.length
+            : 20
+        ).fill("Loading..."),
       });
 
       // set the inQuery property
       const existingDataSourceIndex = activeState.dataSources.indexOf(
-        activeState.dataSources.find(source => dataSource.id == source.id)
+        activeState.dataSources.find((source) => dataSource.id == source.id)
       );
 
       activeState.dataSources[existingDataSourceIndex].columns[startIndex] = {
         ...activeState.dataSources[existingDataSourceIndex].columns[startIndex],
         inQuery: true,
-      }
+      };
 
       setState({
         ...activeState,
-        dataSources: [
-          ...activeState.dataSources
-        ],
+        dataSources: [...activeState.dataSources],
         queryConfig: {
           ...activeState.queryConfig,
-          columns: [
-            ...activeState.queryConfig.columns
-          ]
-        }
-      })
-    }
+          columns: [...activeState.queryConfig.columns],
+        },
+      });
+    };
 
     const removeFromQuery = ({ removeIndex }) => {
       const targetCol = activeState.queryConfig.columns[removeIndex];
 
       //Find the column in data sources
-      const colDataSource = activeState.dataSources.find(source => source.id === targetCol.dataSourceId);
+      const colDataSource = activeState.dataSources.find(
+        (source) => source.id === targetCol.dataSourceId
+      );
       const colDataSourceColIndex = colDataSource.columns.indexOf(
-        colDataSource.columns.find(col => col.id === targetCol.columnId)
+        colDataSource.columns.find((col) => col.id === targetCol.columnId)
       );
       colDataSource.columns[colDataSourceColIndex] = {
         ...colDataSource.columns[colDataSourceColIndex],
-        inQuery: false
-      }
-
-
+        inQuery: false,
+      };
 
       activeState.queryConfig.columns.splice(removeIndex, 1);
       setState({
         ...activeState,
         queryConfig: {
           ...activeState.queryConfig,
-          columns: [...activeState.queryConfig.columns]
-        }
-      })
-
-
-    }
+          columns: [...activeState.queryConfig.columns],
+        },
+      });
+    };
 
     return (
       <div className="query-editor">
@@ -162,10 +164,10 @@ const QueryInstance = ({ queryState }) => {
     );
   };
 
-
-
   return {
-    component: <QueryEditor queryState={queryState} setActions={actions}></QueryEditor>,
+    component: (
+      <QueryEditor queryState={queryState} setActions={actions}></QueryEditor>
+    ),
     getState: () => activeState,
     scrollColumns: (e) => actions.queryViewActions.scrollColumns(e),
     on: (action, handler) => {
@@ -186,11 +188,12 @@ const QueryInstance = ({ queryState }) => {
     },
     readQueryData: (queryData) => {
       if (readQueryHandler) {
-        readQueryHandler(queryData)
+        readQueryHandler(queryData);
       } else {
-        throw new Error("readQueryHandler not assigned")
+        throw new Error("readQueryHandler not assigned");
       }
-    }
+    },
+    setDataReady: (ready) => actions.queryViewActions.setDataReady(ready),
   };
 };
 export const create = ({ element, state }) => {

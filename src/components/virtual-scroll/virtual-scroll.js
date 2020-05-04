@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-import { VSBox } from "./vs-box"
+import { VSBox } from "./vs-box";
 
-import { generateData } from './data.js';
-import "./styles.less"
+import { generateData } from "./data.js";
+import "./styles.less";
 const dataSource = generateData(100);
 
 const VSInstance = ({ state }) => {
@@ -14,8 +14,12 @@ const VSInstance = ({ state }) => {
     update: null,
     readQuery: null,
     scroll: null,
-    requestData: null
-  }
+    requestData: null,
+  };
+
+  const actions = {
+    setDataReady: null,
+  };
 
   const VirtualScroll = ({ vsState }) => {
     return (
@@ -23,9 +27,10 @@ const VSInstance = ({ state }) => {
         dataSource={activeState.dataSource}
         onScroll={() => handlers.scroll}
         handlers={handlers}
+        actions={actions}
       ></VSBox>
-    )
-  }
+    );
+  };
 
   return {
     component: <VirtualScroll></VirtualScroll>,
@@ -57,22 +62,26 @@ const VSInstance = ({ state }) => {
     },
     readQueryData: (queryData) => {
       if (readQueryHandler) {
-        readQueryHandler(queryData)
+        readQueryHandler(queryData);
       } else {
-        throw new Error("readQueryHandler not assigned")
+        throw new Error("readQueryHandler not assigned");
       }
-    }
+    },
+    setDataReady: (readyStatus) => {
+      if (actions.setDataReady != null) {
+        actions.setDataReady(readyStatus);
+      }
+    },
   };
-}
+};
 
 export const create = ({ element, state }) => {
   const instance = VSInstance({
     state: {
       dataSource: dataSource,
-    }
+    },
   });
   const VSEditor = instance.component;
   ReactDOM.render(VSEditor, element);
   return instance;
-
-}
+};
