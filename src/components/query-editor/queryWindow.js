@@ -197,6 +197,9 @@ const DroppableQueryView = ({
       {(provided) => (
         <div className="wrap" ref={provided.innerRef}>
           <header>Query</header>
+          <div className="csv-button" onClick={handlers.onCSVButtonClick}>
+            CSV Download
+          </div>
           <div
             className="fields"
             ref={(ref) => {

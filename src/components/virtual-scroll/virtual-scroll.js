@@ -53,6 +53,10 @@ const VSInstance = ({ state }) => {
           handlers.requestData = handler;
           return;
         }
+        case "CSVDownload": {
+          handlers.onCSVButtonClick = handler;
+          return;
+        }
       }
     },
     updateState: (newState) => {

@@ -180,6 +180,9 @@ const QueryInstance = ({ queryState }) => {
       if (action === "requestData") {
         handlers.requestData = handler;
       }
+      if (action === "CSVDownload") {
+        handlers.onCSVButtonClick = handler;
+      }
     },
     updateState: (newState) => {
       if (stateUpdater) {
