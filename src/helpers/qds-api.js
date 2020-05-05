@@ -63,6 +63,7 @@ export const API = {
           .then((query) => {
             const timeTaken = (Number(new Date()) - queryStartTime) / 1000;
             console.log("Query time taken - " + timeTaken);
+            console.log("QUERY PROGRESS", query.plan);
             if (
               !query.plan.completed
               //||
@@ -105,6 +106,10 @@ export const API = {
           })
           .catch((reason) => reject(reason));
       }),
+
+    // waitForQueryToHaveRows:(queryId, progressUpdate)=>{
+
+    // },
     // https://localhost:5001/api/Resultset/836558a0-0259-48fd-b968-121eacbe4d25?page=0&pagesize=20
     getResultsFromQuery: (queryId, page, pagesize, totalRows = 1000) =>
       new Promise((resolve, reject) => {
