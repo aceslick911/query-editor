@@ -21,7 +21,7 @@ const QuintInstance = ({ quintState }) => {
 
     const updateTables = () =>
       new Promise((resolve, reject) => {
-        API.schema.getTables().then((tables) => {
+        API.schema.getTables().then(({ tables, joins }) => {
           setState({
             ...internalState,
             tables,

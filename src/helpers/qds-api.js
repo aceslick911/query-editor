@@ -181,7 +181,7 @@ export const API = {
 
     uploadFiles: (files) => {
       console.log("uploading files", files);
-      files.forEach((file) => API.upload.uploadFile(file));
+      return Promise.all(files.map((file) => API.upload.uploadFile(file)));
     },
   },
   schema: {
@@ -192,9 +192,14 @@ export const API = {
         return fetch(url, {
           method: "GET",
         })
-          .then((response) => {
-            resolve(true);
-            console.log("File uploaded", file, response);
+          .then((resp) => {
+            if (resp.status >= 200 && resp.status < 300) {
+              resp.json().then((tables) => {
+                resolve(tables);
+              });
+            } else {
+              reject(resp);
+            }
           })
           .catch((reason) => {
             reject(reason);
