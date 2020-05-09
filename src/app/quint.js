@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import Dropzone from "react-dropzone";
@@ -13,6 +13,7 @@ const QuintInstance = ({ quintState }) => {
   const Quint = ({ state }) => {
     const [internalState, setState] = useState({
       tables: [],
+      joins: [],
     });
 
     const uploadFiles = (files) => {
@@ -25,9 +26,15 @@ const QuintInstance = ({ quintState }) => {
           setState({
             ...internalState,
             tables,
+            joins,
           });
         });
       });
+
+    useEffect(() => {
+      // Initialization
+      updateTables();
+    }, []);
 
     return (
       <Dropzone onDrop={uploadFiles}>
@@ -36,10 +43,20 @@ const QuintInstance = ({ quintState }) => {
             <div className="flashCard">
               <div>
                 <h1>Quint</h1>
-                <div></div>
               </div>
             </div>
-
+            <div>Tables</div>
+            {internalState.tables.map((table) => (
+              <ul>
+                {table.name} - {table.count.value} ({table.count.text})
+              </ul>
+            ))}
+            <div>Joins</div>
+            {internalState.joins.map((join) => (
+              <ul>
+                {join.a} -- {join.b}
+              </ul>
+            ))}
             <input {...getInputProps()} />
           </div>
         )}
