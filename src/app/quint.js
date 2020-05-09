@@ -54,7 +54,8 @@ const QuintInstance = ({ quintState }) => {
             <div>Joins</div>
             {internalState.joins.map((join) => (
               <ul>
-                {join.a} -- {join.b}
+                {join.type.split(".").pop()}
+                <br /> {join.a} ({join.fieldA}) -- {join.b} ({join.fieldB})
               </ul>
             ))}
             <input {...getInputProps()} />
