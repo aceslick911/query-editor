@@ -7,33 +7,48 @@ import { API } from "../helpers/qds-api";
 
 import "./styles.less";
 
+// Quint instance wrapper
 const QuintInstance = ({ quintState }) => {
+  // Quint React Component
   const Quint = ({ state }) => {
-    return (
-      <div className="quint-main">
-        <Dropzone onDrop={API.upload.uploadFiles}>
-          {({ getRootProps, getInputProps }) => (
-            <section>
-              <div className="flashCard">
-                <div>
-                  <h1>Quint</h1>
-                  <div></div>
-                </div>
-              </div>
+    const [internalState, setState] = useState({
+      tables: [],
+    });
 
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+    const uploadFiles = (files) => {
+      API.upload.uploadFiles(files).then(updateTables);
+    };
+
+    const updateTables = () =>
+      new Promise((resolve, reject) => {
+        API.schema.getTables().then((tables) => {
+          setState({
+            ...internalState,
+            tables,
+          });
+        });
+      });
+
+    return (
+      <Dropzone onDrop={uploadFiles}>
+        {({ getRootProps, getInputProps }) => (
+          <div className="quint-main" {...getRootProps()}>
+            <div className="flashCard">
+              <div>
+                <h1>Quint</h1>
+                <div></div>
               </div>
-            </section>
-          )}
-        </Dropzone>
-      </div>
+            </div>
+
+            <input {...getInputProps()} />
+          </div>
+        )}
+      </Dropzone>
     );
   };
 
   return {
-    component: Quint({ state: quintState }),
+    component: <Quint state={quintState} />,
   };
 };
 

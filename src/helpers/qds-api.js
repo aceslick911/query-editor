@@ -184,4 +184,22 @@ export const API = {
       files.forEach((file) => API.upload.uploadFile(file));
     },
   },
+  schema: {
+    getTables: () => {
+      return new Promise((resolve, reject) => {
+        let url = "/api/Schema/Tables";
+
+        return fetch(url, {
+          method: "GET",
+        })
+          .then((response) => {
+            resolve(true);
+            console.log("File uploaded", file, response);
+          })
+          .catch((reason) => {
+            reject(reason);
+          });
+      });
+    },
+  },
 };
