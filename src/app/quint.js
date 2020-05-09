@@ -7,6 +7,8 @@ import { API } from "../helpers/qds-api";
 
 import "./styles.less";
 
+import { CreateJoin } from "../components/quint/createJoin";
+
 // Quint instance wrapper
 const QuintInstance = ({ quintState }) => {
   // Quint React Component
@@ -14,6 +16,7 @@ const QuintInstance = ({ quintState }) => {
     const [internalState, setState] = useState({
       tables: [],
       joins: [],
+      logoVisible: true,
     });
 
     const uploadFiles = (files) => {
@@ -27,6 +30,7 @@ const QuintInstance = ({ quintState }) => {
             ...internalState,
             tables,
             joins,
+            logoVisible: false,
           });
         });
       });
@@ -37,27 +41,36 @@ const QuintInstance = ({ quintState }) => {
     }, []);
 
     return (
-      <Dropzone onDrop={uploadFiles}>
+      <Dropzone onDrop={uploadFiles} noClick={true}>
         {({ getRootProps, getInputProps }) => (
           <div className="quint-main" {...getRootProps()}>
-            <div className="flashCard">
-              <div>
-                <h1>Quint</h1>
+            {internalState.logoVisible ? (
+              <div className="flashCard">
+                <div>
+                  <h1>Quint</h1>
+                </div>
               </div>
-            </div>
-            <div>Tables</div>
+            ) : (
+              ""
+            )}
+            <h1>Tables</h1>
             {internalState.tables.map((table) => (
               <ul>
                 {table.name} - {table.count.value} ({table.count.text})
               </ul>
             ))}
-            <div>Joins</div>
+            <h1>Joins</h1>
             {internalState.joins.map((join) => (
               <ul>
                 {join.type.split(".").pop()}
                 <br /> {join.a} ({join.fieldA}) -- {join.b} ({join.fieldB})
               </ul>
             ))}
+            <h2>Create Join</h2>
+            <CreateJoin
+              tables={internalState.tables}
+              joinTypes={[]}
+            ></CreateJoin>
             <input {...getInputProps()} />
           </div>
         )}
