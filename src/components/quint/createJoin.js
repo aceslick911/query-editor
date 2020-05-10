@@ -2,14 +2,38 @@ import React, { useState, useCallback, useEffect } from "react";
 
 import "./createJoin.less";
 
-export const CreateJoin = ({ tables, joinTypes }) => {
+export const CreateJoin = ({ tables, joinTypes, createJoin }) => {
   const [state, setState] = useState({
-    tableA: null,
-    tableB: null,
-    fieldA: null,
-    fieldB: null,
-    joinType: null,
+    tableA: "",
+    tableB: "",
+    fieldA: "",
+    fieldB: "",
+    joinType: "fuzzy",
   });
+
+  const tableAFields = () => {
+    const table = tables.find((table) => table.name == state.tableA);
+    if (table) {
+      return table.fields;
+    } else {
+      return [];
+    }
+  };
+  const tableBFields = () => {
+    const table = tables.find((table) => table.name == state.tableB);
+    if (table) {
+      return table.fields;
+    } else {
+      return [];
+    }
+  };
+
+  const joinReady = () =>
+    state.tableA != "" &&
+    state.tableB != "" &&
+    state.fieldA != "" &&
+    state.fieldB != "";
+
   return (
     <div className="create-join-component">
       <p>Join Type:</p>
@@ -23,7 +47,7 @@ export const CreateJoin = ({ tables, joinTypes }) => {
         }}
       >
         {joinTypes.map((join) => (
-          <option>{join.name}</option>
+          <option key={join.id}>{join.name}</option>
         ))}
       </select>
 
@@ -37,8 +61,11 @@ export const CreateJoin = ({ tables, joinTypes }) => {
           });
         }}
       >
+        <option disabled selected value value="">
+          -- select a table --
+        </option>
         {tables.map((table) => (
-          <option>{table.name}</option>
+          <option key={table.name}>{table.name}</option>
         ))}
       </select>
       {state.tableA != null && (
@@ -51,11 +78,12 @@ export const CreateJoin = ({ tables, joinTypes }) => {
             });
           }}
         >
-          {tables
-            .find((table) => table.name == state.tableA.name)
-            .fields.map((field) => (
-              <option>{field}</option>
-            ))}
+          <option disabled selected value value="">
+            -- select a field --
+          </option>
+          {tableAFields().map((field) => (
+            <option key={field}>{field}</option>
+          ))}
         </select>
       )}
 
@@ -65,12 +93,15 @@ export const CreateJoin = ({ tables, joinTypes }) => {
         onChange={(event) => {
           setState({
             ...state,
-            tableA: event.target.value,
+            tableB: event.target.value,
           });
         }}
       >
+        <option disabled selected value value="">
+          -- select a table --
+        </option>
         {tables.map((table) => (
-          <option>{table.name}</option>
+          <option key={table.name}>{table.name}</option>
         ))}
       </select>
       {state.tableB != null && (
@@ -79,17 +110,21 @@ export const CreateJoin = ({ tables, joinTypes }) => {
           onChange={(event) => {
             setState({
               ...state,
-              fieldA: event.target.value,
+              fieldB: event.target.value,
             });
           }}
         >
-          {tables
-            .find((table) => table.name == state.tableB.name)
-            .fields.map((field) => (
-              <option>{field}</option>
-            ))}
+          <option disabled selected value value="">
+            -- select a field --
+          </option>
+          {tableBFields().map((field) => (
+            <option key={field}>{field}</option>
+          ))}
         </select>
       )}
+      <button disabled={!joinReady()} onClick={() => createJoin(state)}>
+        Create Join
+      </button>
     </div>
   );
 };

@@ -157,6 +157,24 @@ export const API = {
         });
       }),
   },
+  joins: {
+    createJoin: ({ tableA, tableB, fieldA, fieldB, joinType }) => {
+      return new Promise((resolve, reject) => {
+        let url = `/api/Relationship/${tableA}/${tableB}/${fieldA}/${fieldB}/${joinType}`;
+
+        return fetch(url, {
+          method: "GET",
+        })
+          .then((response) => {
+            resolve(true);
+            console.log("Join created", url, response);
+          })
+          .catch((reason) => {
+            reject(reason);
+          });
+      });
+    },
+  },
   upload: {
     uploadFile: (file) => {
       return new Promise((resolve, reject) => {

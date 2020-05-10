@@ -19,6 +19,11 @@ const QuintInstance = ({ quintState }) => {
       logoVisible: true,
     });
 
+    const joinTypes = [
+      { name: "Fuzzy", id: "fuzzy" },
+      { name: "Exact", id: "exact" },
+    ];
+
     const uploadFiles = (files) => {
       API.upload.uploadFiles(files).then(updateTables);
     };
@@ -40,6 +45,13 @@ const QuintInstance = ({ quintState }) => {
       updateTables();
     }, []);
 
+    const createJoin = ({ tableA, tableB, fieldA, fieldB, joinType }) => {
+      console.log(tableA, tableB, fieldA, fieldB, joinType);
+      API.joins
+        .createJoin({ tableA, tableB, fieldA, fieldB, joinType })
+        .then(updateTables);
+    };
+
     return (
       <Dropzone onDrop={uploadFiles} noClick={true}>
         {({ getRootProps, getInputProps }) => (
@@ -55,13 +67,13 @@ const QuintInstance = ({ quintState }) => {
             )}
             <h1>Tables</h1>
             {internalState.tables.map((table) => (
-              <ul>
+              <ul key={table.name}>
                 {table.name} - {table.count.value} ({table.count.text})
               </ul>
             ))}
             <h1>Joins</h1>
             {internalState.joins.map((join) => (
-              <ul>
+              <ul key={join.type}>
                 {join.type.split(".").pop()}
                 <br /> {join.a} ({join.fieldA}) -- {join.b} ({join.fieldB})
               </ul>
@@ -69,7 +81,8 @@ const QuintInstance = ({ quintState }) => {
             <h2>Create Join</h2>
             <CreateJoin
               tables={internalState.tables}
-              joinTypes={[]}
+              joinTypes={joinTypes}
+              createJoin={createJoin}
             ></CreateJoin>
             <input {...getInputProps()} />
           </div>
