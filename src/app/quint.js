@@ -56,15 +56,17 @@ const QuintInstance = ({ quintState }) => {
       <Dropzone onDrop={uploadFiles} noClick={true}>
         {({ getRootProps, getInputProps }) => (
           <div className="quint-main" {...getRootProps()}>
-            {internalState.logoVisible ? (
-              <div className="flashCard">
-                <div>
-                  <h1>Quint</h1>
-                </div>
+            <div
+              className={
+                "flashCard " +
+                (internalState.logoVisible == false ? "hide" : "")
+              }
+            >
+              <div>
+                <h1>Quint</h1>
               </div>
-            ) : (
-              ""
-            )}
+            </div>
+
             <h1>Tables</h1>
             {internalState.tables.map((table) => (
               <ul key={table.name}>

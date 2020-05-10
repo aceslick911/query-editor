@@ -16,6 +16,9 @@
     left: 50%;
     top: 50%;
     font-size: 60px;
+    &.hide {
+      animation: hideCard 1s ease-in 0.5s 1 forwards;
+    }
     > div {
       position: relative;
       margin-left: -50%;
@@ -52,5 +55,14 @@
   }
   to {
     left: 110%;
+  }
+}
+
+@keyframes hideCard {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
